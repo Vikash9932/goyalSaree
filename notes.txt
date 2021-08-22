@@ -1,0 +1,5 @@
+adb connect localhost:5555
+adb devices
+adb kill-server
+127.0.0.1:5555
+adb tcpip 5555
