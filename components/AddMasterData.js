@@ -3,6 +3,8 @@ import { Button, TextInput, Picker } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 import { DataTable } from "react-native-paper";
+import DatePicker from "react-native-datepicker";
+import { CheckBox } from "react-native-elements";
 
 // import styles from "./Styles"
 
@@ -16,6 +18,9 @@ const AddMasterData = () => {
   const [subCategory, setSubCategory] = useState("");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [sold, setSold] = useState(false);
+
   const [companyData, setCompanyData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [subCategoryData, setSubCategoryData] = useState([]);
@@ -62,8 +67,11 @@ const AddMasterData = () => {
         company,
         firm,
         subCategory,
+        date,
+        sold,
       });
       console.log("data pushed successfully");
+      handleClearButton();
     } catch (error) {
       console.log("Insertion Error", error);
     }
@@ -165,89 +173,27 @@ const AddMasterData = () => {
   };
 
   const handleClearButton = () => {
-    setQuantity(0);
+    setQuantity();
     setItem("");
-    setRate(0);
-    setPurchaseRate(0);
+    setRate();
+    setPurchaseRate();
     setCompany("");
     setCategory("");
     setSubCategory("");
     setAdhat("");
     setFirm("");
+    setDate(new Date());
   };
 
   return (
     <>
       <TextInput
         // style={styles.input}
-        onChangeText={(text) => setQuantity(text)}
-        defaultValue={quantity}
-        placeholder="Enter Quantity"
-        keyboardType="number-pad"
-      />
-      <TextInput
-        // style={styles.input}
         onChangeText={(text) => setItem(text)}
         defaultValue={item}
-        placeholder="Enter Item"
+        placeholder="Product Name"
       />
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setRate(text)}
-        defaultValue={rate}
-        placeholder="Enter Rate"
-        keyboardType="number-pad"
-      />
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setPurchaseRate(text)}
-        defaultValue={purchaseRate}
-        placeholder="Enter PurchaseRate"
-        keyboardType="number-pad"
-      />
-
-      {/*Adhat data*/}
-      <Picker
-        selectedValue={adhat}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setAdhat(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {adhatData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-
-      {/*Company data*/}
-      <Picker
-        selectedValue={company}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setCompany(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {companyData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-
-      {/*Firm data*/}
-      <Picker
-        selectedValue={firm}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setFirm(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {firmData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-
+      Category
       {/*Category data*/}
       <Picker
         selectedValue={category}
@@ -261,7 +207,70 @@ const AddMasterData = () => {
           );
         })}
       </Picker>
-
+      <TextInput
+        // style={styles.input}
+        onChangeText={(text) => setRate(text)}
+        defaultValue={rate}
+        placeholder="Produt Rate"
+        keyboardType="number-pad"
+      />
+      <TextInput
+        // style={styles.input}
+        onChangeText={(text) => setPurchaseRate(text)}
+        defaultValue={purchaseRate}
+        placeholder="Purchase Price"
+        keyboardType="number-pad"
+      />
+      <TextInput
+        // style={styles.input}
+        onChangeText={(text) => setQuantity(text)}
+        defaultValue={quantity}
+        placeholder="Product Quantity"
+        keyboardType="number-pad"
+      />
+      Company
+      {/*Company data*/}
+      <Picker
+        selectedValue={company}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(itemValue, itemIndex) => setCompany(itemValue)}
+      >
+        <Picker.Item label="Select An Option" />
+        {companyData.map((item) => {
+          return (
+            <Picker.Item key={item.name} label={item.name} value={item.name} />
+          );
+        })}
+      </Picker>
+      Adhat
+      {/*Adhat data*/}
+      <Picker
+        selectedValue={adhat}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(itemValue, itemIndex) => setAdhat(itemValue)}
+      >
+        <Picker.Item label="Select An Option" />
+        {adhatData.map((item) => {
+          return (
+            <Picker.Item key={item.name} label={item.name} value={item.name} />
+          );
+        })}
+      </Picker>
+      Firm
+      {/*Firm data*/}
+      <Picker
+        selectedValue={firm}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(itemValue, itemIndex) => setFirm(itemValue)}
+      >
+        <Picker.Item label="Select An Option" />
+        {firmData.map((item) => {
+          return (
+            <Picker.Item key={item.name} label={item.name} value={item.name} />
+          );
+        })}
+      </Picker>
+      Sub Category
       {/*SubCategory data*/}
       <Picker
         selectedValue={subCategory}
@@ -275,9 +284,14 @@ const AddMasterData = () => {
           );
         })}
       </Picker>
-
+      <DatePicker date={date} onDateChange={setDate} />
+      <CheckBox
+        title="Sold Out"
+        checked={sold}
+        onPress={() => setSold(!sold)}
+      />
       <Button title="Add" onPress={handleAddButton} />
-      {/* <Button title="Clear" onPress={handleClearButton} /> */}
+      <Button title="Clear" onPress={handleClearButton} />
     </>
   );
 };

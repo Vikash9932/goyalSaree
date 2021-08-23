@@ -34,36 +34,46 @@ const Homepage = () => {
 
   return (
     <>
-      <Button title="Refresh" onPress={fetchData} />
       <View
       // style={styles.container}
       >
         <DataTable>
           <DataTable.Header>
+            <DataTable.Title numeric>Rate</DataTable.Title>
             <DataTable.Title
             // style={styles.cell}
             >
               Item
             </DataTable.Title>
-            <DataTable.Title numeric>Quantity</DataTable.Title>
-            <DataTable.Title numeric>Rate</DataTable.Title>
-            <DataTable.Title numeric>Purchase Rate</DataTable.Title>
             <DataTable.Title>Company</DataTable.Title>
+            <DataTable.Title numeric>Quantity</DataTable.Title>
+
+            <DataTable.Title numeric>Purchase Price</DataTable.Title>
+
             <DataTable.Title>Adhat</DataTable.Title>
             <DataTable.Title>Firm</DataTable.Title>
+            <DataTable.Title>Date</DataTable.Title>
+            <DataTable.Title>Category</DataTable.Title>
+            <DataTable.Title>Sub Category</DataTable.Title>
           </DataTable.Header>
 
           {data &&
             data.map((item) => {
               return (
                 <DataTable.Row key={item.adhat}>
-                  <DataTable.Cell>{item.item}</DataTable.Cell>
-                  <DataTable.Cell>{item.quantity}</DataTable.Cell>
+                  {/* To be done */}
                   <DataTable.Cell numeric>{item.rate}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item.purchaseRate}</DataTable.Cell>
+                  <DataTable.Cell>{item.item}</DataTable.Cell>
                   <DataTable.Cell>{item.company}</DataTable.Cell>
+                  <DataTable.Cell>{item.quantity}</DataTable.Cell>
+
+                  <DataTable.Cell numeric>{item.purchaseRate}</DataTable.Cell>
+
                   <DataTable.Cell>{item.adhat}</DataTable.Cell>
                   <DataTable.Cell>{item.firm}</DataTable.Cell>
+                  {/* <DataTable.Cell>{item.date}</DataTable.Cell> */}
+                  <DataTable.Cell>{item.category}</DataTable.Cell>
+                  <DataTable.Cell>{item.subCategory}</DataTable.Cell>
                 </DataTable.Row>
               );
             })}
