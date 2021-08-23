@@ -60,7 +60,7 @@ const Homepage = () => {
           {data &&
             data.map((item) => {
               return (
-                <DataTable.Row key={item.adhat}>
+                <DataTable.Row key={item.item}>
                   {/* To be done */}
                   <DataTable.Cell numeric>{item.rate}</DataTable.Cell>
                   <DataTable.Cell>{item.item}</DataTable.Cell>

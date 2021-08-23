@@ -1,22 +1,11 @@
 import React from "react";
 import { Text, View, Button, Linking } from "react-native";
 
-import Homepage from "./Homepage";
 const Home = (props) => {
   const navigation = props.navigation;
   return (
     <>
       <View>
-        <Text
-          onPress={() => {
-            Linking.openURL("http://www.goyalsaree.com").catch((err) =>
-              console.error("An error occurred in Opening goyalsaree.com", err)
-            );
-          }}
-        >
-          Goyal Saree
-        </Text>
-
         <Button
           title="Add Adhat"
           onPress={() => {
@@ -55,7 +44,6 @@ const Home = (props) => {
           }}
         />
       </View>
-      <Homepage />
     </>
   );
 };

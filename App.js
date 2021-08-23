@@ -1,16 +1,16 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import firebase from "firebase/app";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 //import different Screens
-import Home from "./components/Home";
-import AddAdhat from "./components/AddAdhat";
-import AddCategory from "./components/AddCategory";
-import AddFirm from "./components/AddFirm";
-import AddCompany from "./components/AddCompany";
-import AddSubCategory from "./components/AddSubCategory";
-import AddMasterData from "./components/AddMasterData";
+import AddAdhat from "./screens/AddAdhat";
+import AddMasterData from "./screens/AddMasterData";
+import Homepage from "./screens/Homepage";
+import AddCompany from "./screens/AddCompany";
+import AddFirm from "./screens/AddFirm";
+import AddCategory from "./screens/AddCategory";
+import AddSubCategory from "./screens/AddSubCategory";
 
 let firebaseConfig = {
   apiKey: "AIzaSyDbNa3jcniq66sPKsbIBWljPa_CJSv7CVI",
@@ -22,26 +22,28 @@ let firebaseConfig = {
   appId: "1:294097089707:web:87f19164c54a38cc9e33ee",
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ title: "Goyal Saree" }}
-        />
-        <Stack.Screen name="AddAdhat" component={AddAdhat} />
-        <Stack.Screen name="AddCategory" component={AddCategory} />
-        <Stack.Screen name="AddCompany" component={AddCompany} />
-        <Stack.Screen name="AddFirm" component={AddFirm} />
-        <Stack.Screen name="AddSubCategory" component={AddSubCategory} />
-        <Stack.Screen name="AddMasterData" component={AddMasterData} />
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName={Homepage}>
+        <Drawer.Screen name="Dashboard" component={Homepage} />
+        <Drawer.Screen name="New Item" component={AddMasterData} />
+        <Drawer.Screen name="New Adhat" component={AddAdhat} />
+        <Drawer.Screen name="New Company" component={AddCompany} />
+        <Drawer.Screen name="New Category" component={AddCategory} />
+        <Drawer.Screen name="New Sub Category" component={AddSubCategory} />
+        <Drawer.Screen name="New Firm" component={AddFirm} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;
