@@ -3,3 +3,42 @@ adb devices
 adb kill-server
 127.0.0.1:5555
 adb tcpip 5555
+
+
+
+//imoprt from react-native
+<TouchableOpacity onPress = {}>
+<Text>......</Text>
+<Text>.....fbdfjh
+</TouchableOpacity
+
+<FlatList
+          // horizontal={true}
+          // showsHorizontalScrollIndicator = {false}
+/>
+
+ <Image source={require("../assets/goyalsaree.jpg")} />
+ 
+const navigator = createStackNavigator(
+  {
+    Home: Homepage,
+    NewItem: AddMasterData,
+    NewAdhat: AddAdhat,
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      title: "Goyal Saree",
+    },
+  }
+);
+
+const Homepage = ({navigation})=>{
+      return(
+            <View>
+            <Button onPress = {()=>navigation.navigate('NewItem')}
+            title = "New Item"
+            />
+            </View>
+      )
+}

@@ -2,6 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import firebase from "firebase/app";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -30,11 +32,11 @@ if (!firebase.apps.length) {
 
 const Drawer = createDrawerNavigator();
 
-const App = () => {
+const App1 = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName={Homepage}>
-        <Drawer.Screen name="Dashboard" component={Homepage} />
+        <Drawer.Screen name="Dashboard" component={AddAdhat} />
         <Drawer.Screen name="New Item" component={AddMasterData} />
         <Drawer.Screen name="New Adhat" component={AddAdhat} />
         <Drawer.Screen name="New Company" component={AddCompany} />
@@ -46,4 +48,22 @@ const App = () => {
   );
 };
 
-export default App;
+const navigator = createStackNavigator(
+  {
+    Dashboard: Homepage,
+    Adhat: AddAdhat,
+    Category: AddCategory,
+    Company: AddCompany,
+    Firm: AddFirm,
+    SubCategory: AddSubCategory,
+    MasterData: AddMasterData,
+  },
+  {
+    initialRouteName: "Dashboard",
+    defaultNavigationOptions: {
+      title: "Goyal Saree",
+    },
+  }
+);
+
+export default createAppContainer(navigator);

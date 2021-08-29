@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextInput, Picker } from "react-native";
+import {
+  Button,
+  TextInput,
+  Picker,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
 import { DataTable } from "react-native-paper";
-import DatePicker from "react-native-datepicker";
+// import DatePicker from "react-native-datepicker";
 import { CheckBox } from "react-native-elements";
-
+import ViewData from "../components/ViewData";
 // import styles from "./Styles"
-
-const AddMasterData = () => {
+import MyButton from "../components/MyButton";
+const AddMasterData = ({ navigation }) => {
   const [quantity, setQuantity] = useState();
   const [item, setItem] = useState("");
   const [rate, setRate] = useState();
   const [purchaseRate, setPurchaseRate] = useState();
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("null");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [sold, setSold] = useState(false);
 
   const [companyData, setCompanyData] = useState([]);
@@ -26,13 +33,11 @@ const AddMasterData = () => {
   const [subCategoryData, setSubCategoryData] = useState([]);
   const [adhatData, setAdhatData] = useState([]);
   const [firmData, setFirmData] = useState([]);
-
+  const [data, setData] = useState([]);
+  const [comapny, setComapny] = useState("");
+  // console.log("Date", date);
   useEffect(() => {
-    fetchAdhatData();
-    fetchCategoryData();
-    fetchSubCategoryData();
-    fetchFirmData();
-    fetchCompanyData();
+    fetchData();
   }, []);
 
   const handleAddButton = () => {
@@ -67,7 +72,7 @@ const AddMasterData = () => {
         company,
         firm,
         subCategory,
-        date,
+        // date,
         sold,
       });
       console.log("data pushed successfully");
@@ -78,93 +83,17 @@ const AddMasterData = () => {
     // }
   };
 
-  const fetchAdhatData = () => {
+  const fetchData = () => {
     try {
       firebase
         .database()
-        .ref("Adhat/")
+        .ref("Data/")
         .on("value", (snapshot) => {
           const fetchedDataObject = snapshot.val();
-          console.log("List of Adhat Data: ", fetchedDataObject);
+          console.log("List of Data: ", fetchedDataObject);
           if (fetchedDataObject) {
             const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Adhat Data Array:", fetchedDataArray);
-            setAdhatData(fetchedDataArray);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCategoryData = () => {
-    try {
-      firebase
-        .database()
-        .ref("Category/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Category Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Category Data Array:", fetchedDataArray);
-            setCategoryData(fetchedDataArray);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchCompanyData = () => {
-    try {
-      firebase
-        .database()
-        .ref("Company/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Company Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Company Data Array:", fetchedDataArray);
-            setCompanyData(fetchedDataArray);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchFirmData = () => {
-    try {
-      firebase
-        .database()
-        .ref("Firm/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Firm Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Firm Data Array:", fetchedDataArray);
-            setFirmData(fetchedDataArray);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchSubCategoryData = () => {
-    try {
-      firebase
-        .database()
-        .ref("SubCategory/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of SubCategory Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched SubCategory Data Array:", fetchedDataArray);
-            setSubCategoryData(fetchedDataArray);
+            setData(fetchedDataArray);
           }
         });
     } catch (error) {
@@ -179,121 +108,165 @@ const AddMasterData = () => {
     setPurchaseRate();
     setCompany("");
     setCategory("");
-    setSubCategory("");
+    setSubCategory("null");
     setAdhat("");
     setFirm("");
-    setDate(new Date());
+    // setDate(new Date());
   };
 
   return (
-    <>
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setItem(text)}
-        defaultValue={item}
-        placeholder="Product Name"
+    <View style={styles.viewParentStyle}>
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Product Name</Text>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => setItem(text)}
+          defaultValue={item}
+          placeholder="Product Name"
+        />
+      </View>
+
+      <ViewData
+        type="Category"
+        data={data}
+        value={category}
+        setValue={setCategory}
+        navigation={navigation}
       />
-      Category
-      {/*Category data*/}
-      <Picker
-        selectedValue={category}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {categoryData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setRate(text)}
-        defaultValue={rate}
-        placeholder="Produt Rate"
-        keyboardType="number-pad"
+
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Product Rate</Text>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => setRate(text)}
+          defaultValue={rate}
+          placeholder="Product Rate"
+          keyboardType="number-pad"
+        />
+      </View>
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Purchase Price</Text>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => setPurchaseRate(text)}
+          defaultValue={purchaseRate}
+          placeholder="Purchase Price"
+          keyboardType="number-pad"
+        />
+      </View>
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Product Quantity</Text>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => setQuantity(text)}
+          defaultValue={quantity}
+          placeholder="Product Quantity"
+          keyboardType="number-pad"
+        />
+      </View>
+
+      <ViewData
+        type="Company"
+        data={data}
+        value={company}
+        setValue={setCompany}
+        navigation={navigation}
       />
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setPurchaseRate(text)}
-        defaultValue={purchaseRate}
-        placeholder="Purchase Price"
-        keyboardType="number-pad"
+
+      <ViewData
+        type="Adhat"
+        data={data}
+        value={adhat}
+        setValue={setAdhat}
+        navigation={navigation}
       />
-      <TextInput
-        // style={styles.input}
-        onChangeText={(text) => setQuantity(text)}
-        defaultValue={quantity}
-        placeholder="Product Quantity"
-        keyboardType="number-pad"
+
+      <ViewData
+        type="Firm"
+        data={data}
+        value={firm}
+        setValue={setFirm}
+        navigation={navigation}
       />
-      Company
-      {/*Company data*/}
-      <Picker
-        selectedValue={company}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setCompany(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {companyData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-      Adhat
-      {/*Adhat data*/}
-      <Picker
-        selectedValue={adhat}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setAdhat(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {adhatData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-      Firm
-      {/*Firm data*/}
-      <Picker
-        selectedValue={firm}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setFirm(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {firmData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-      Sub Category
-      {/*SubCategory data*/}
-      <Picker
-        selectedValue={subCategory}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setSubCategory(itemValue)}
-      >
-        <Picker.Item label="Select An Option" />
-        {subCategoryData.map((item) => {
-          return (
-            <Picker.Item key={item.name} label={item.name} value={item.name} />
-          );
-        })}
-      </Picker>
-      <DatePicker date={date} onDateChange={setDate} />
-      <CheckBox
-        title="Sold Out"
-        checked={sold}
-        onPress={() => setSold(!sold)}
+
+      <ViewData
+        type="SubCategory"
+        data={data}
+        value={subCategory}
+        setValue={setSubCategory}
+        navigation={navigation}
       />
-      <Button title="Add" onPress={handleAddButton} />
-      <Button title="Clear" onPress={handleClearButton} />
-    </>
+
+      {/* <Date date={date} onDateChange={setDate} /> */}
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Sold Out</Text>
+        <CheckBox
+          style={styles.checkboxStyle}
+          checked={sold}
+          onPress={() => setSold(!sold)}
+        />
+      </View>
+      <View style={styles.viewButtonStyle}>
+        <MyButton
+          title="Add"
+          style1={styles.buttonStyle1}
+          style2={styles.buttonStyle2}
+          onPress={handleAddButton}
+        />
+        <MyButton
+          title="Clear"
+          style1={styles.buttonStyle1}
+          style2={styles.buttonStyle2}
+          sty
+          onPress={handleClearButton}
+        />
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  viewParentStyle: {
+    // justifyContent: "space-between",
+  },
+  viewStyle: {
+    flexDirection: "row",
+    backgroundColor: "#FFDDDD",
+    margin: 10,
+    height: 50,
+    borderRadius: 5,
+  },
+  textStyle: {
+    alignSelf: "center",
+    marginRight: 15,
+    marginLeft: 15,
+    fontSize: 15,
+    flex: 3,
+  },
+  textInputStyle: {
+    flex: 1,
+    fontSize: 18,
+    flex: 7,
+  },
+  checkboxStyle: {},
+  viewButtonStyle: {
+    flexDirection: "row",
+    margin: 10,
+    height: 50,
+  },
+  buttonStyle1: {
+    backgroundColor: "#0000ff",
+    flex: 1,
+    margin: 5,
+    borderRadius: 5,
+  },
+  buttonStyle2: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "900",
+    textAlign: "center",
+    paddingTop: "5%",
+  },
+});
 
 export default AddMasterData;
