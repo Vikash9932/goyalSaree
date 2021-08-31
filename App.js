@@ -13,6 +13,7 @@ import AddCompany from "./screens/AddCompany";
 import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
+import AddData from "./components/AddData";
 
 let firebaseConfig = {
   apiKey: "AIzaSyDbNa3jcniq66sPKsbIBWljPa_CJSv7CVI",
@@ -29,28 +30,29 @@ if (!firebase.apps.length) {
 } else {
   firebase.app(); // if already initialized, use that one
 }
-
-const Drawer = createDrawerNavigator();
+/*
+const Stack = createStackNavigator();
 
 const App1 = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName={Homepage}>
-        <Drawer.Screen name="Dashboard" component={AddAdhat} />
-        <Drawer.Screen name="New Item" component={AddMasterData} />
-        <Drawer.Screen name="New Adhat" component={AddAdhat} />
-        <Drawer.Screen name="New Company" component={AddCompany} />
-        <Drawer.Screen name="New Category" component={AddCategory} />
-        <Drawer.Screen name="New Sub Category" component={AddSubCategory} />
-        <Drawer.Screen name="New Firm" component={AddFirm} />
-      </Drawer.Navigator>
+      <Stack.Navigator initialRouteName={Homepage}>
+        <Stack.Screen
+          name="Dashboard"
+          component={Homepage}
+          options={{ title: "Goyal Saree" }}
+        />
+        <Stack.Screen name="NewData" component={AddData} />
+        <Stack.Screen name="MasterData" component={AddMasterData} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
+*/
 const navigator = createStackNavigator(
   {
     Dashboard: Homepage,
+    MasterData: AddMasterData,
     Adhat: AddAdhat,
     Category: AddCategory,
     Company: AddCompany,
@@ -67,3 +69,14 @@ const navigator = createStackNavigator(
 );
 
 export default createAppContainer(navigator);
+// export default App;
+
+/* Trash
+    Adhat: AddAdhat,
+    Category: AddCategory,
+    Company: AddCompany,
+    Firm: AddFirm,
+    SubCategory: AddSubCategory,
+    MasterData: AddMasterData,
+
+*/

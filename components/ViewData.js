@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 
+import { withNavigation } from "react-navigation";
 import MyButton from "./MyButton";
 
 const ViewData = ({ type, data, value, setValue, navigation }) => {
@@ -36,14 +37,15 @@ const ViewData = ({ type, data, value, setValue, navigation }) => {
           })}
         </Picker>
       </View>
-      {/* <View style={styles.viewStyle3}> */}
+
       <MyButton
-        style1={styles.viewStyle3}
-        style2={styles.buttonStyle}
-        onPress={() => navigation.navigate(`${type}`)}
+        style1={styles.buttonStyle1}
+        style2={styles.buttonStyle2}
+        onPress={() => {
+          navigation.navigate(type);
+        }}
         title="New"
       />
-      {/* </View> */}
     </View>
   );
 };
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     flex: 5,
     borderRadius: 5,
   },
-  viewStyle3: {
+  buttonStyle1: {
     borderRadius: 5,
     flex: 2,
     backgroundColor: "#0000ff",
@@ -76,19 +78,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     textAlign: "center",
-    paddingTop: "10%",
+    height: "100%",
+    textAlignVertical: "center",
   },
   pickerStyle: {
     fontSize: 16,
     fontWeight: "900",
   },
-  buttonStyle: {
+  buttonStyle2: {
     color: "#ffffff",
     fontSize: 16,
     fontWeight: "900",
     textAlign: "center",
-    paddingTop: "10%",
+    height: "100%",
+    textAlignVertical: "center",
   },
 });
 
-export default ViewData;
+export default withNavigation(ViewData);

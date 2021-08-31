@@ -6,4 +6,10 @@ const AddAdhat = () => {
   return <AddData type="Adhat" />;
 };
 
+AddAdhat.navigationOptions = () => {
+  return {
+    title: "New Adhat",
+  };
+};
+
 export default AddAdhat;

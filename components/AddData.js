@@ -6,16 +6,21 @@ import {
   FlatList,
   Text,
   StyleSheet,
+  Alert,
+  TouchableOpacity,
 } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
-// import { DataTable } from "react-native-paper";
+import { MaterialIcons } from "@expo/vector-icons";
 
-// import styles from "./Styles";
+import MyButton from "./MyButton";
 
-const AddData = ({ type }) => {
+const AddData = ({ navigation, type }) => {
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
+
+  // const type = navigation.getParam("type");
+  // navigation.title(`New ${type}`);
 
   useEffect(() => {
     fetchData();
@@ -61,16 +66,50 @@ const AddData = ({ type }) => {
     setName("");
   };
 
+  const deleteYes = (deletedName) => {
+    console.log("sdkfs", database().ref("/Data/"));
+  };
+
+  const handleDeleteButton = (deletedName) => {
+    //To Be Implemented
+    /* 
+    "Are your sure?",
+      Alert.alert([
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteYes(deletedName);
+          },
+        },
+        {
+          text: "No",
+        },
+      ]);
+    */
+  };
+
   return (
     <View>
-      <TextInput
-        style={styles.textInputStyle}
-        onChangeText={(text) => setName(text)}
-        defaultValue={name}
-        placeholder={`Enter ${type} Name`}
-      />
-      <Button title="Add" onPress={handleAddButton} />
+      <View style={styles.viewParentStyle}>
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>{type}</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setName(text)}
+            defaultValue={name}
+            placeholder="Name"
+          />
+        </View>
 
+        <MyButton
+          title="Add"
+          style1={styles.buttonStyle1}
+          style2={styles.buttonStyle2}
+          onPress={handleAddButton}
+        />
+      </View>
       <FlatList
         // horizontal={true}
         // showsHorizontalScrollIndicator = {false}
@@ -78,9 +117,18 @@ const AddData = ({ type }) => {
         data={data}
         renderItem={({ item }) => {
           return (
-            <View>
-              <Text style={styles.textStyle}>{item[type]}</Text>
-              {/* <Button>Delete</Button> */}
+            <View style={styles.viewFlatListParentStyle}>
+              <Text style={styles.textFlatListStyle}>{item[type]}</Text>
+              <TouchableOpacity
+                style={styles.touchableStyle}
+                onPress={() => handleDeleteButton(item[type])}
+              >
+                <MaterialIcons
+                  style={styles.iconStyle}
+                  name="delete"
+                  size={25}
+                />
+              </TouchableOpacity>
             </View>
           );
         }}
@@ -90,12 +138,76 @@ const AddData = ({ type }) => {
 };
 
 const styles = StyleSheet.create({
+  viewParentStyle: {
+    flexDirection: "row",
+    margin: 10,
+    height: 50,
+    borderRadius: 5,
+  },
+  viewStyle1: {
+    flex: 3,
+    backgroundColor: "#28cf02",
+    borderRadius: 5,
+  },
+  viewStyle2: {
+    backgroundColor: "#e6841c",
+    flex: 5,
+    borderRadius: 5,
+    marginLeft: 5,
+  },
   textStyle: {
-    marginVertical: 10,
+    color: "#1c1ce6",
+    fontSize: 16,
+    fontWeight: "900",
+    textAlign: "center",
+    height: "100%",
+    borderColor: "black",
+    textAlignVertical: "center",
   },
   textInputStyle: {
-    marginVertical: 10,
-    height: 40,
+    fontSize: 18,
+    flex: 7,
+    marginLeft: 5,
+  },
+  buttonStyle1: {
+    borderRadius: 5,
+    flex: 2,
+    backgroundColor: "#0000ff",
+    marginLeft: 5,
+  },
+  buttonStyle2: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "900",
+    textAlign: "center",
+    textAlignVertical: "center",
+    height: "100%",
+  },
+
+  viewFlatListParentStyle: {
+    flexDirection: "row",
+    margin: 10,
+    height: 50,
+    borderRadius: 5,
+    backgroundColor: "#ddd",
+  },
+  textFlatListStyle: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "900",
+    textAlign: "center",
+    height: "100%",
+    textAlignVertical: "center",
+    flex: 8,
+  },
+  touchableStyle: {
+    flex: 2,
+  },
+  iconStyle: {
+    color: "black",
+    textAlign: "center",
+    textAlignVertical: "center",
+    height: "100%",
   },
 });
 

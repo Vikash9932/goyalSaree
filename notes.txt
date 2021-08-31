@@ -42,3 +42,49 @@ const Homepage = ({navigation})=>{
             </View>
       )
 }
+
+
+<TextInput
+	autoCapitalize = "none",
+	autoCorrect ={false},
+	onEndEditing = {()=>{}}
+/>
+
+<Image style={styles.image} source = {{uri: result.image_url}}/>
+// No image visible
+//Apply style to image to fix its width & height
+
+image:{
+	width: 250,
+	height: 120,
+	borderRadius:5
+}
+
+
+{ScrollView} from 'react-native'
+//Wrap the content which might need to be scrolled
+
+
+<View style = {{ flex:1 }}> //only view actual visible space which is visible
+OR
+<> </>
+
+import {withNavigation} from 'react-navigation'
+export default withNavigation(ResultsList)
+
+
+<TouchableOpacity 
+	onPress = {()=>navigation.navigate('ResultsShow',{id: item.id})}
+/>
+ResultsShow = ({navigation})=>{
+	const id = navigation.getParam('id');
+}
+
+
+expo-vector-icons
+@expo/vector-icons
+MaterialIcons - delete
+import {MaterialIcons} from '@expo/vector/icons'
+
+<MaterialIcons name="delete" 
+ 

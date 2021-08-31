@@ -115,7 +115,7 @@ const AddMasterData = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.viewParentStyle}>
+    <>
       <View style={styles.viewStyle}>
         <Text style={styles.textStyle}>Product Name</Text>
         <TextInput
@@ -131,7 +131,6 @@ const AddMasterData = ({ navigation }) => {
         data={data}
         value={category}
         setValue={setCategory}
-        navigation={navigation}
       />
 
       <View style={styles.viewStyle}>
@@ -170,31 +169,17 @@ const AddMasterData = ({ navigation }) => {
         data={data}
         value={company}
         setValue={setCompany}
-        navigation={navigation}
       />
 
-      <ViewData
-        type="Adhat"
-        data={data}
-        value={adhat}
-        setValue={setAdhat}
-        navigation={navigation}
-      />
+      <ViewData type="Adhat" data={data} value={adhat} setValue={setAdhat} />
 
-      <ViewData
-        type="Firm"
-        data={data}
-        value={firm}
-        setValue={setFirm}
-        navigation={navigation}
-      />
+      <ViewData type="Firm" data={data} value={firm} setValue={setFirm} />
 
       <ViewData
         type="SubCategory"
         data={data}
         value={subCategory}
         setValue={setSubCategory}
-        navigation={navigation}
       />
 
       {/* <Date date={date} onDateChange={setDate} /> */}
@@ -221,14 +206,17 @@ const AddMasterData = ({ navigation }) => {
           onPress={handleClearButton}
         />
       </View>
-    </View>
+    </>
   );
 };
 
+AddMasterData.navigationOptions = () => {
+  return {
+    title: "New Item",
+  };
+};
+
 const styles = StyleSheet.create({
-  viewParentStyle: {
-    // justifyContent: "space-between",
-  },
   viewStyle: {
     flexDirection: "row",
     backgroundColor: "#FFDDDD",
@@ -237,14 +225,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textStyle: {
-    alignSelf: "center",
-    marginRight: 15,
-    marginLeft: 15,
+    textAlignVertical: "center",
+    textAlign: "center",
     fontSize: 15,
     flex: 3,
+    height: "100%",
   },
   textInputStyle: {
-    flex: 1,
     fontSize: 18,
     flex: 7,
   },
@@ -264,8 +251,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "900",
+    height: "100%",
     textAlign: "center",
-    paddingTop: "5%",
+    textAlignVertical: "center",
   },
 });
 

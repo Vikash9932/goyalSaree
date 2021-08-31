@@ -5,4 +5,10 @@ const AddCategory = () => {
   return <AddData type="Category" />;
 };
 
+AddCategory.navigationOptions = () => {
+  return {
+    title: `New Category`,
+  };
+};
+
 export default AddCategory;

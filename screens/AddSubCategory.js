@@ -5,4 +5,9 @@ const AddSubCategory = () => {
   return <AddData type="SubCategory" />;
 };
 
+AddSubCategory.navigationOptions = () => {
+  return {
+    title: `New Sub Category`,
+  };
+};
 export default AddSubCategory;
