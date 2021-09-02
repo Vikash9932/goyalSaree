@@ -25,7 +25,7 @@ const AddMasterData = ({ navigation }) => {
   const [subCategory, setSubCategory] = useState("null");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("");
   const [sold, setSold] = useState(false);
   const [data, setData] = useState([]);
   const [ID, setID] = useState(1);
@@ -129,7 +129,7 @@ const AddMasterData = ({ navigation }) => {
     setSubCategory("null");
     setAdhat("");
     setFirm("");
-    // setDate(new Date());
+    setDate("");
   };
 
   return (
@@ -182,6 +182,17 @@ const AddMasterData = ({ navigation }) => {
         />
       </View>
 
+      <View style={styles.viewStyle}>
+        <Text style={styles.textStyle}>Date</Text>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => setDate(text)}
+          defaultValue={date}
+          placeholder="Date"
+          keyboardType="number-pad"
+        />
+      </View>
+
       <ViewData
         type="Company"
         data={data}
@@ -200,7 +211,6 @@ const AddMasterData = ({ navigation }) => {
         setValue={setSubCategory}
       />
 
-      {/* <DatePicker date={date} onDateChange={setDate} /> */}
       <View style={styles.viewStyle}>
         <Text style={styles.textStyle}>Sold Out</Text>
         <CheckBox
@@ -240,6 +250,7 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 50,
     borderRadius: 5,
+    marginBottom: 0,
   },
   textStyle: {
     textAlignVertical: "center",

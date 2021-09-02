@@ -1,5 +1,33 @@
 const styles = { borderWidth: 1, borderColor: "black" };
 /*
+
+
+
+
+let moreData = [item.purchaseRate, item.Adhat, item.Firm];
+
+
+
+ <Picker style={styles.columnRowTxt}>
+              <Picker.Item label="More" />
+              {moreData.map((each) => {
+                return <Picker.Item key={each} label={each} value={each} />;
+              })}
+            </Picker>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 

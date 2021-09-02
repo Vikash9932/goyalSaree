@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 50,
     borderRadius: 5,
+    marginBottom: 2,
   },
   viewStyle1: {
     flex: 3,

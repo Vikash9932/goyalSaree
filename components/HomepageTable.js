@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Picker,
 } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -21,21 +22,18 @@ const HomepageTable = ({ searchedTerm }) => {
     { name: "Item" },
     { name: "Company" },
     { name: "Qty" },
-    { name: "P. Price" },
+    { name: "More" },
   ];
   useEffect(() => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    filterData(searchedTerm);
-  }, [searchedTerm]);
-
-  const filterData = (searchedTerm) => {
-    // Initial Data is in "data"
-    const filteredData = data.filter((datum) => datum.item == searchedTerm);
-    setData(filteredData);
+  const filterData = () => {
+    return data.filter((datum) =>
+      datum.item.toLowerCase().includes(searchedTerm.toLowerCase())
+    );
   };
+
   const fetchData = () => {
     try {
       firebase
@@ -108,7 +106,7 @@ const HomepageTable = ({ searchedTerm }) => {
   return (
     <FlatList
       keyExtractor={(data) => `${data.ID}`}
-      data={data}
+      data={filterData()}
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
       stickyHeaderIndices={[0]}
@@ -126,7 +124,14 @@ const HomepageTable = ({ searchedTerm }) => {
             <Text style={styles.columnRowTxt}>{item.item}</Text>
             <Text style={styles.columnRowTxt}>{item.company}</Text>
             <Text style={styles.columnRowTxt}>{item.quantity}</Text>
-            <Text style={styles.columnRowTxt}>{item.purchaseRate}</Text>
+            <Picker style={styles.columnRowTxt}>
+              <Picker.Item label={item.item} />
+              <Picker.Item label={String(item.purchaseRate)} />
+              <Picker.Item label={item.adhat} />
+              <Picker.Item label={item.firm} />
+              <Picker.Item label={item.category} />
+              <Picker.Item label={item.subCategory} />
+            </Picker>
           </View>
         );
       }}
