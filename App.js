@@ -1,7 +1,5 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import firebase from "firebase/app";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
@@ -13,7 +11,6 @@ import AddCompany from "./screens/AddCompany";
 import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
-import AddData from "./components/AddData";
 
 let firebaseConfig = {
   apiKey: "AIzaSyDbNa3jcniq66sPKsbIBWljPa_CJSv7CVI",

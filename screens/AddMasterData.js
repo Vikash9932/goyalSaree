@@ -6,15 +6,15 @@ import {
   StyleSheet,
   Text,
   View,
+  Alert,
 } from "react-native";
 import firebase from "firebase/app";
 import "firebase/database";
-import { DataTable } from "react-native-paper";
-// import DatePicker from "react-native-datepicker";
+// import DatePicker from "react-native-date-picker";
 import { CheckBox } from "react-native-elements";
 import ViewData from "../components/ViewData";
-// import styles from "./Styles"
 import MyButton from "../components/MyButton";
+
 const AddMasterData = ({ navigation }) => {
   const [quantity, setQuantity] = useState();
   const [item, setItem] = useState("");
@@ -25,62 +25,58 @@ const AddMasterData = ({ navigation }) => {
   const [subCategory, setSubCategory] = useState("null");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [sold, setSold] = useState(false);
-
-  const [companyData, setCompanyData] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
-  const [subCategoryData, setSubCategoryData] = useState([]);
-  const [adhatData, setAdhatData] = useState([]);
-  const [firmData, setFirmData] = useState([]);
   const [data, setData] = useState([]);
-  const [comapny, setComapny] = useState("");
+  const [ID, setID] = useState(1);
   // console.log("Date", date);
+
   useEffect(() => {
     fetchData();
+    fetchMasterData();
+    return () => {
+      handleClearButton();
+    };
   }, []);
 
   const handleAddButton = () => {
-    // if (
-    //   !adhat |
-    //   !category |
-    //   !company |
-    //   !firm |
-    //   !subCategory |
-    //   !quantity |
-    //   !item |
-    //   !rate |
-    //   !purchaseRate
-    // ) {
-    //   alert("Fill Empty Fields, please!");
-    // }
-    // else if (
-    //   subCategoryData &&
-    //   subCategoryData.find((o) => o.name === subCategoryName)
-    // ) {
-    //   alert("Duplicate Entry");
-    // }
-    // else {
-    try {
-      firebase.database().ref("MasterData/").push({
-        item,
-        rate,
-        purchaseRate,
-        quantity,
-        adhat,
-        category,
-        company,
-        firm,
-        subCategory,
-        // date,
-        sold,
-      });
-      console.log("data pushed successfully");
-      handleClearButton();
-    } catch (error) {
-      console.log("Insertion Error", error);
+    if (
+      !adhat ||
+      !category ||
+      !company ||
+      !firm ||
+      !quantity ||
+      !item ||
+      !rate ||
+      !purchaseRate
+    ) {
+      Alert.alert("Fill Empty Fields, please!");
+    } else {
+      try {
+        firebase
+          .database()
+          .ref("MasterData/")
+          .push({
+            ID,
+            item,
+            rate: Number(rate),
+            purchaseRate: Number(purchaseRate),
+            quantity: Number(quantity),
+            adhat,
+            category,
+            company,
+            firm,
+            subCategory,
+            date,
+            sold,
+          });
+        console.log("data pushed successfully");
+        Alert.alert("Item Inserted");
+        handleClearButton();
+      } catch (error) {
+        console.log("Insertion Error", error);
+      }
     }
-    // }
   };
 
   const fetchData = () => {
@@ -94,6 +90,28 @@ const AddMasterData = ({ navigation }) => {
           if (fetchedDataObject) {
             const fetchedDataArray = Object.values(fetchedDataObject);
             setData(fetchedDataArray);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchMasterData = () => {
+    try {
+      firebase
+        .database()
+        .ref("MasterData/")
+        .on("value", (snapshot) => {
+          const fetchedDataObject = snapshot.val();
+          console.log("List of Master Data: ", fetchedDataObject);
+          if (fetchedDataObject) {
+            const fetchedDataArray = Object.values(fetchedDataObject);
+            console.log("fetched Master Data Array:", fetchedDataArray);
+            let maxID = fetchedDataArray.reduce((a, b) =>
+              a.ID > b.ID ? a : b
+            ).ID;
+            setID(maxID + 1);
           }
         });
     } catch (error) {
@@ -182,7 +200,7 @@ const AddMasterData = ({ navigation }) => {
         setValue={setSubCategory}
       />
 
-      {/* <Date date={date} onDateChange={setDate} /> */}
+      {/* <DatePicker date={date} onDateChange={setDate} /> */}
       <View style={styles.viewStyle}>
         <Text style={styles.textStyle}>Sold Out</Text>
         <CheckBox
@@ -202,7 +220,6 @@ const AddMasterData = ({ navigation }) => {
           title="Clear"
           style1={styles.buttonStyle1}
           style2={styles.buttonStyle2}
-          sty
           onPress={handleClearButton}
         />
       </View>

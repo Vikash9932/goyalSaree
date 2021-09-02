@@ -1,20 +1,98 @@
 const styles = { borderWidth: 1, borderColor: "black" };
 /*
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-picker/picker": "1.16.1",
+    "@react-navigation/bottom-tabs": "6.0.4",
+    "@react-navigation/material-bottom-tabs": "6.0.4",
+    "@react-navigation/material-top-tabs": "6.0.2",
+    "@react-navigation/native": "^5.9.7",
+    "@react-navigation/native-stack": "6.0.5",
+    "@react-navigation/stack": "^5.14.8",
+    "expo": "^42.0.3",
+    "expo-dev-client": "^0.4.7",
+    "expo-status-bar": "~1.0.4",
+    "firebase": "8.2.3",
+    "lodash": "^4.17.21",
+    "patch-package": "^6.4.7",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "^0.65.1",
+    "react-native-date-picker": "^3.4.3",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-elements": "^3.4.2",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-pager-view": "5.0.12",
+    "react-native-paper": "^4.7.2",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "~3.4.0",
+    "react-native-tab-view": "^3.0.0",
+    "react-native-web": "^0.17.1",
+    "react-navigation": "^4.4.4",
+    "react-navigation-stack": "^2.10.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6"
+  },
+  "private": true
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <Text style={styles.textStyle}>{item.adhat}</Text>
               <Text style={styles.textStyle}>{item.firm}</Text>
               <Text style={styles.textStyle}>{item.date}</Text>
               <Text style={styles.textStyle}>{item.category}</Text>
               <Text style={styles.textStyle}>{item.subCategory}</Text> 
               <Button>Delete</Button>
-
+// import styles from "./Styles"
+import { DataTable } from "react-native-paper";
  // { name: "Adhat" },
     // { name: "Firm" },
     // { name: "Date" },
     // { name: "Category" },
     // { name: "Sub Category" },
 
+ <TouchableOpacity
+        onPress={() => navigation.navigate("MasterData")}
+        style={styles.TouchableOpacity}
+      >
+        <Feather name="plus" size={50} style={styles.newItem} />
+      </TouchableOpacity>
 
-
+  const [companyData, setCompanyData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [subCategoryData, setSubCategoryData] = useState([]);
+  const [adhatData, setAdhatData] = useState([]);
+  const [firmData, setFirmData] = useState([]);
 
 */
 /*
