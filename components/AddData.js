@@ -33,10 +33,10 @@ const AddData = ({ navigation, type }) => {
         .ref("Data/")
         .on("value", (snapshot) => {
           const fetchedDataObject = snapshot.val();
-          console.log(`List of ${type} Data: `, fetchedDataObject);
+          console.log(`List of Data: `, fetchedDataObject);
           if (fetchedDataObject) {
             const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log(`fetched ${type} Data Array:`, fetchedDataArray);
+            console.log(`fetched Data Array:`, fetchedDataArray);
             const typeData = fetchedDataArray.filter((i) => i[type]);
             setData(typeData);
           }
@@ -67,25 +67,20 @@ const AddData = ({ navigation, type }) => {
   };
 
   const deleteYes = (deletedName) => {
-    console.log("sdkfs", database().ref("/Data/"));
+    console.log("Deleted item is : ", type, deletedName);
+
+    // console.log("sdkfs", database().ref("/Data/"));
   };
 
   const handleDeleteButton = (deletedName) => {
-    //To Be Implemented
-    /* 
-    "Are your sure?",
-      Alert.alert([
-        {
-          text: "Yes",
-          onPress: () => {
-            deleteYes(deletedName);
-          },
-        },
-        {
-          text: "No",
-        },
-      ]);
-    */
+    Alert.alert("Are your sure?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => deleteYes(deletedName) },
+    ]);
   };
 
   return (

@@ -72,7 +72,6 @@ const AddMasterData = ({ navigation }) => {
           });
         console.log("data pushed successfully");
         Alert.alert("Item Inserted");
-        handleClearButton();
       } catch (error) {
         console.log("Insertion Error", error);
       }
@@ -102,7 +101,8 @@ const AddMasterData = ({ navigation }) => {
       firebase
         .database()
         .ref("MasterData/")
-        .on("value", (snapshot) => {
+        .once("value")
+        .then((snapshot) => {
           const fetchedDataObject = snapshot.val();
           console.log("List of Master Data: ", fetchedDataObject);
           if (fetchedDataObject) {
