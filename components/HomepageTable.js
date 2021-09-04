@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Picker,
 } from "react-native";
-import firebase from "firebase/app";
-import "firebase/database";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import _ from "lodash";
+
+import db from "../firebase.config";
 
 const HomepageTable = ({ searchedTerm }) => {
   const [data, setData] = useState([]);
@@ -30,24 +30,15 @@ const HomepageTable = ({ searchedTerm }) => {
 
   const filterData = () => {
     return data.filter((datum) =>
-      datum.item.toLowerCase().includes(searchedTerm.toLowerCase())
+      datum.Item.toLowerCase().includes(searchedTerm.toLowerCase())
     );
   };
 
-  const fetchData = () => {
+  const fetchData = async () => {
     try {
-      firebase
-        .database()
-        .ref("MasterData/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Master Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Master Data Array:", fetchedDataArray);
-            setData(fetchedDataArray);
-          }
-        });
+      const response = db.collection("Master Data");
+      const masterData = await response.get();
+      masterData.docs.forEach((item) => setData([...data, item.data()]));
     } catch (error) {
       console.log(error);
     }
@@ -58,13 +49,13 @@ const HomepageTable = ({ searchedTerm }) => {
     let columnLower = column.toLowerCase();
     switch (columnLower) {
       case "qty":
-        columnLower = "quantity";
+        columnLower = "Quantity";
         break;
       case "p. price":
-        columnLower = "purchaseRate";
+        columnLower = "Purchase Rate";
         break;
       case "subcategory":
-        columnLower = "subCategory";
+        columnLower = "Sub Category";
         break;
       default:
         break;
@@ -105,7 +96,7 @@ const HomepageTable = ({ searchedTerm }) => {
   );
   return (
     <FlatList
-      keyExtractor={(data) => `${data.ID}`}
+      keyExtractor={(data) => `${data.Item}`}
       data={filterData()}
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
@@ -119,18 +110,19 @@ const HomepageTable = ({ searchedTerm }) => {
             }}
           >
             <Text style={{ ...styles.columnRowTxt, fontWeight: "bold" }}>
-              {item.rate}
+              {item.Rate}
             </Text>
-            <Text style={styles.columnRowTxt}>{item.item}</Text>
-            <Text style={styles.columnRowTxt}>{item.company}</Text>
-            <Text style={styles.columnRowTxt}>{item.quantity}</Text>
+            <Text style={styles.columnRowTxt}>{item.Item}</Text>
+            <Text style={styles.columnRowTxt}>{item.Company}</Text>
+            <Text style={styles.columnRowTxt}>{item.Quantity}</Text>
             <Picker style={styles.columnRowTxt}>
-              <Picker.Item label={item.item} />
-              <Picker.Item label={String(item.purchaseRate)} />
-              <Picker.Item label={item.adhat} />
-              <Picker.Item label={item.firm} />
-              <Picker.Item label={item.category} />
-              <Picker.Item label={item.subCategory} />
+              <Picker.Item label={item.Adhat} />
+              <Picker.Item label={item.Item} />
+              {/* <Picker.Item label={String(item["Purchase Rate"])} /> */}
+
+              <Picker.Item label={item.Firm} />
+              <Picker.Item label={item.Category} />
+              {/* <Picker.Item label={item["Sub Category"]} /> */}
             </Picker>
           </View>
         );

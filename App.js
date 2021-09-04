@@ -1,7 +1,6 @@
-import React from "react";
-import firebase from "firebase/app";
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import { YellowBox } from "react-native";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -12,21 +11,8 @@ import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
 
-let firebaseConfig = {
-  apiKey: "AIzaSyDbNa3jcniq66sPKsbIBWljPa_CJSv7CVI",
-  authDomain: "goyalsaree-99edd.firebaseapp.com",
-  projectId: "goyalsaree-99edd",
-  storageBucket: "goyalsaree-99edd.appspot.com",
-  databaseURL: "https://goyalsaree-99edd-default-rtdb.firebaseio.com/",
-  messagingSenderId: "294097089707",
-  appId: "1:294097089707:web:87f19164c54a38cc9e33ee",
-};
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
+YellowBox.ignoreWarnings(["Setting a timer for a long period of time"]);
+
 /*
 const Stack = createStackNavigator();
 
