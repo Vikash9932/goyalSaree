@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  TextInput,
-  Picker,
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-} from "react-native";
-import firebase from "firebase/app";
-import "firebase/database";
+import React, { useState } from "react";
+import { TextInput, StyleSheet, Text, View, Alert } from "react-native";
+import db from "../firebase.config";
 // import DatePicker from "react-native-date-picker";
 import { CheckBox } from "react-native-elements";
 import ViewData from "../components/ViewData";
@@ -27,17 +18,7 @@ const AddMasterData = ({ navigation }) => {
   const [firm, setFirm] = useState("");
   const [date, setDate] = useState("");
   const [sold, setSold] = useState(false);
-  const [data, setData] = useState([]);
-  const [ID, setID] = useState(1);
   // console.log("Date", date);
-
-  useEffect(() => {
-    fetchData();
-    fetchMasterData();
-    return () => {
-      handleClearButton();
-    };
-  }, []);
 
   const handleAddButton = () => {
     if (
@@ -53,69 +34,23 @@ const AddMasterData = ({ navigation }) => {
       Alert.alert("Fill Empty Fields, please!");
     } else {
       try {
-        firebase
-          .database()
-          .ref("MasterData/")
-          .push({
-            ID,
-            item,
-            rate: Number(rate),
-            purchaseRate: Number(purchaseRate),
-            quantity: Number(quantity),
-            adhat,
-            category,
-            company,
-            firm,
-            subCategory,
-            date,
-            sold,
-          });
-        console.log("data pushed successfully");
+        db.collection("Master Data").add({
+          Item: item,
+          Rate: rate,
+          PurchaseRate: purchaseRate,
+          Quantity: quantity,
+          Adhat: adhat,
+          Category: category,
+          Company: company,
+          Firm: firm,
+          SubCategory: subCategory,
+          Date: date,
+          Sold: sold,
+        });
         Alert.alert("Item Inserted");
       } catch (error) {
         console.log("Insertion Error", error);
       }
-    }
-  };
-
-  const fetchData = () => {
-    try {
-      firebase
-        .database()
-        .ref("Data/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            setData(fetchedDataArray);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchMasterData = () => {
-    try {
-      firebase
-        .database()
-        .ref("MasterData/")
-        .once("value")
-        .then((snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log("List of Master Data: ", fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log("fetched Master Data Array:", fetchedDataArray);
-            let maxID = fetchedDataArray.reduce((a, b) =>
-              a.ID > b.ID ? a : b
-            ).ID;
-            setID(maxID + 1);
-          }
-        });
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -144,12 +79,7 @@ const AddMasterData = ({ navigation }) => {
         />
       </View>
 
-      <ViewData
-        type="Category"
-        data={data}
-        value={category}
-        setValue={setCategory}
-      />
+      <ViewData type="Category" value={category} setValue={setCategory} />
 
       <View style={styles.viewStyle}>
         <Text style={styles.textStyle}>Product Rate</Text>
@@ -193,20 +123,14 @@ const AddMasterData = ({ navigation }) => {
         />
       </View>
 
-      <ViewData
-        type="Company"
-        data={data}
-        value={company}
-        setValue={setCompany}
-      />
+      <ViewData type="Company" value={company} setValue={setCompany} />
 
-      <ViewData type="Adhat" data={data} value={adhat} setValue={setAdhat} />
+      <ViewData type="Adhat" value={adhat} setValue={setAdhat} />
 
-      <ViewData type="Firm" data={data} value={firm} setValue={setFirm} />
+      <ViewData type="Firm" value={firm} setValue={setFirm} />
 
       <ViewData
         type="SubCategory"
-        data={data}
         value={subCategory}
         setValue={setSubCategory}
       />

@@ -2,63 +2,50 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
-  Button,
   FlatList,
   Text,
   StyleSheet,
   Alert,
   TouchableOpacity,
 } from "react-native";
-import firebase from "firebase/app";
-import "firebase/database";
+import db from "../firebase.config";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import MyButton from "./MyButton";
 
-const AddData = ({ navigation, type }) => {
+const AddData = ({ type }) => {
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
 
-  // const type = navigation.getParam("type");
-  // navigation.title(`New ${type}`);
-
   useEffect(() => {
-    fetchData();
-  }, []);
+    const subscriber = db
+      .collection(`${type}`)
+      .onSnapshot((documentSnapshot) => {
+        let tempData = [];
+        documentSnapshot.docs.forEach(
+          (item) => (tempData = [...tempData, item.data()])
+        );
+        setData(tempData);
+      });
 
-  const fetchData = () => {
-    try {
-      firebase
-        .database()
-        .ref("Data/")
-        .on("value", (snapshot) => {
-          const fetchedDataObject = snapshot.val();
-          console.log(`List of Data: `, fetchedDataObject);
-          if (fetchedDataObject) {
-            const fetchedDataArray = Object.values(fetchedDataObject);
-            console.log(`fetched Data Array:`, fetchedDataArray);
-            const typeData = fetchedDataArray.filter((i) => i[type]);
-            setData(typeData);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, []);
 
   const handleAddButton = () => {
     if (!name) {
       alert(`Enter ${type} Name, please!`);
-    } else if (data && data.find((o) => o[type] === name)) {
+    } else if (
+      data &&
+      data.find((o) => o["Name"].toLowerCase() === name.toLowerCase())
+    ) {
       alert("Duplicate Entry");
     } else {
       try {
-        firebase
-          .database()
-          .ref("Data/")
-          .push({
-            [type]: name,
-          });
+        console.log("type", `${type}`);
+        db.collection(`${type}`).add({
+          Name: name,
+        });
       } catch (error) {
         console.log("Insertion Error", error);
       }
@@ -68,8 +55,13 @@ const AddData = ({ navigation, type }) => {
 
   const deleteYes = (deletedName) => {
     console.log("Deleted item is : ", type, deletedName);
-
-    // console.log("sdkfs", database().ref("/Data/"));
+    db.collection(`${type}`)
+      .where("Name", "==", deletedName)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs[0].ref.delete();
+      });
+    setData([]);
   };
 
   const handleDeleteButton = (deletedName) => {
@@ -108,15 +100,15 @@ const AddData = ({ navigation, type }) => {
       <FlatList
         // horizontal={true}
         // showsHorizontalScrollIndicator = {false}
-        keyExtractor={(data) => data[type]}
+        keyExtractor={(data) => data["Name"]}
         data={data}
         renderItem={({ item }) => {
           return (
             <View style={styles.viewFlatListParentStyle}>
-              <Text style={styles.textFlatListStyle}>{item[type]}</Text>
+              <Text style={styles.textFlatListStyle}>{item["Name"]}</Text>
               <TouchableOpacity
                 style={styles.touchableStyle}
-                onPress={() => handleDeleteButton(item[type])}
+                onPress={() => handleDeleteButton(item["Name"])}
               >
                 <MaterialIcons
                   style={styles.iconStyle}

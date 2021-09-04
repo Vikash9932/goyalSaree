@@ -1,9 +1,6 @@
-const styles = { borderWidth: 1, borderColor: "black" };
+//https://app.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
+
 /*
-
-
-
-
 let moreData = [item.purchaseRate, item.Adhat, item.Firm];
 
 
@@ -15,7 +12,7 @@ let moreData = [item.purchaseRate, item.Adhat, item.Firm];
               })}
             </Picker>
 
-
+const styles = { borderWidth: 1, borderColor: "black" };
 
 
 

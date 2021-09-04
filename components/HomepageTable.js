@@ -16,7 +16,6 @@ const HomepageTable = ({ searchedTerm }) => {
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
-
   const columns = [
     { name: "Rate" },
     { name: "Item" },
@@ -25,23 +24,36 @@ const HomepageTable = ({ searchedTerm }) => {
     { name: "More" },
   ];
   useEffect(() => {
-    fetchData();
+    const subscriber = db
+      .collection("Master Data")
+      .onSnapshot((documentSnapshot) => {
+        let tempData = [];
+        documentSnapshot.docs.forEach(
+          (item) => (tempData = [...tempData, item.data()])
+        );
+        setData(tempData);
+      });
+
+    fetchID();
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
   }, []);
+
+  const fetchID = async () => {
+    db.collection("Master Data")
+      .where("Item", "==", "Aaisha")
+      .where("Rate", "==", 450)
+      .get()
+      .then((querySnapshot) => {
+        console.log(querySnapshot.docs[0].id);
+      });
+  };
 
   const filterData = () => {
     return data.filter((datum) =>
       datum.Item.toLowerCase().includes(searchedTerm.toLowerCase())
     );
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = db.collection("Master Data");
-      const masterData = await response.get();
-      masterData.docs.forEach((item) => setData([...data, item.data()]));
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const sortTable = (column) => {
@@ -52,10 +64,10 @@ const HomepageTable = ({ searchedTerm }) => {
         columnLower = "Quantity";
         break;
       case "p. price":
-        columnLower = "Purchase Rate";
+        columnLower = "PurchaseRate";
         break;
       case "subcategory":
-        columnLower = "Sub Category";
+        columnLower = "SubCategory";
         break;
       default:
         break;
@@ -96,7 +108,7 @@ const HomepageTable = ({ searchedTerm }) => {
   );
   return (
     <FlatList
-      keyExtractor={(data) => `${data.Item}`}
+      keyExtractor={(data) => data.Item}
       data={filterData()}
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
@@ -118,11 +130,10 @@ const HomepageTable = ({ searchedTerm }) => {
             <Picker style={styles.columnRowTxt}>
               <Picker.Item label={item.Adhat} />
               <Picker.Item label={item.Item} />
-              {/* <Picker.Item label={String(item["Purchase Rate"])} /> */}
-
+              {/* <Picker.Item label={item.PurchaseRate} /> */}
               <Picker.Item label={item.Firm} />
               <Picker.Item label={item.Category} />
-              {/* <Picker.Item label={item["Sub Category"]} /> */}
+              <Picker.Item label={item.SubCategory} />
             </Picker>
           </View>
         );

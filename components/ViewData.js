@@ -1,19 +1,26 @@
-import React from "react";
-import {
-  Button,
-  TextInput,
-  Picker,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { Picker, StyleSheet, Text, View } from "react-native";
+import db from "../firebase.config";
 import { withNavigation } from "react-navigation";
 import MyButton from "./MyButton";
 
-const ViewData = ({ type, data, value, setValue, navigation }) => {
-  const typeData = data.filter((i) => i[type]);
-  //   console.log("typeData", typeData);
+const ViewData = ({ type, value, setValue, navigation }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const subscriber = db
+      .collection(`${type}`)
+      .onSnapshot((documentSnapshot) => {
+        let tempData = [];
+        documentSnapshot.docs.forEach(
+          (item) => (tempData = [...tempData, item.data()])
+        );
+        setData(tempData);
+      });
+
+    return () => subscriber();
+  }, []);
+
   return (
     <View style={styles.viewParentStyle}>
       <View style={styles.viewStyle1}>
@@ -26,12 +33,12 @@ const ViewData = ({ type, data, value, setValue, navigation }) => {
           onValueChange={(itemValue, itemIndex) => setValue(itemValue)}
         >
           <Picker.Item label="Select" />
-          {typeData.map((item) => {
+          {data.map((item) => {
             return (
               <Picker.Item
-                key={item[type]}
-                label={item[type]}
-                value={item[type]}
+                key={item.Name}
+                label={item.Name}
+                value={item.Name}
               />
             );
           })}
