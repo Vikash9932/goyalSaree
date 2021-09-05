@@ -60,6 +60,10 @@ const AddData = ({ type }) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.docs[0].ref.delete();
+      })
+      .catch((err) => {
+        console.log("error while deleting", err);
+        Alert.alert("Nothing Deleted");
       });
     setData([]);
   };

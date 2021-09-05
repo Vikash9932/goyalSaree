@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, View, Alert } from "react-native";
 import db from "../firebase.config";
 // import DatePicker from "react-native-date-picker";
@@ -13,12 +13,57 @@ const AddMasterData = ({ navigation }) => {
   const [purchaseRate, setPurchaseRate] = useState();
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("null");
+  const [subCategory, setSubCategory] = useState("");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
   const [date, setDate] = useState("");
   const [sold, setSold] = useState(false);
+  const [masterData, setMasterData] = useState([]);
   // console.log("Date", date);
+
+  useEffect(() => {
+    const itemParam = navigation.getParam("Item");
+    if (itemParam) {
+      let {
+        Adhat,
+        Item,
+        Rate,
+        Firm,
+        Company,
+        Quantity,
+        Category,
+        SubCategory,
+        PurchaseRate,
+        Date,
+        Sold,
+      } = navigation.state.params;
+      setQuantity(Quantity.toString());
+      setItem(Item);
+      setRate(Rate.toString());
+      setPurchaseRate(PurchaseRate.toString());
+      setCompany(Company);
+      setCategory(Category);
+      setSubCategory(SubCategory);
+      setAdhat(Adhat);
+      setFirm(Firm);
+      setDate(Date);
+      setSold(Sold);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchMasterData();
+  }, []);
+
+  const fetchMasterData = async () => {
+    const response = db.collection("Master Data");
+    const data = await response.get();
+    let tempData = [];
+    data.docs.forEach((item) => {
+      tempData = [...tempData, item.data()];
+    });
+    setMasterData(tempData);
+  };
 
   const handleAddButton = () => {
     if (
@@ -32,13 +77,18 @@ const AddMasterData = ({ navigation }) => {
       !purchaseRate
     ) {
       Alert.alert("Fill Empty Fields, please!");
+    } else if (
+      masterData &&
+      masterData.find((o) => o.Item.toLowerCase() === item.toLowerCase())
+    ) {
+      Alert.alert("Item already exists");
     } else {
       try {
         db.collection("Master Data").add({
           Item: item,
-          Rate: rate,
-          PurchaseRate: purchaseRate,
-          Quantity: quantity,
+          Rate: Number(rate),
+          PurchaseRate: Number(purchaseRate),
+          Quantity: Number(quantity),
           Adhat: adhat,
           Category: category,
           Company: company,
@@ -61,66 +111,115 @@ const AddMasterData = ({ navigation }) => {
     setPurchaseRate();
     setCompany("");
     setCategory("");
-    setSubCategory("null");
+    setSubCategory("");
     setAdhat("");
     setFirm("");
     setDate("");
+    setSold(false);
+  };
+
+  const handleDeleteButton = () => {
+    Alert.alert("Are your sure?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => deleteYes() },
+    ]);
+  };
+
+  const deleteYes = () => {
+    db.collection("Master Data")
+      .where("Item", "==", item)
+      .where("Quantity", "==", Number(quantity))
+      .where("Rate", "==", Number(rate))
+      .where("PurchaseRate", "==", Number(purchaseRate))
+      .where("Company", "==", company)
+      .where("Category", "==", category)
+      .where("Adhat", "==", adhat)
+      .where("Firm", "==", firm)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs[0].ref.delete();
+        Alert.alert("Item Deleted");
+        navigation.navigate("Dashboard");
+      })
+      .catch((err) => {
+        console.log("error while deleting", err);
+        Alert.alert("Nothing Deleted");
+      });
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Product Name</Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => setItem(text)}
-          defaultValue={item}
-          placeholder="Product Name"
-        />
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Product Name</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setItem(text)}
+            defaultValue={item}
+          />
+        </View>
       </View>
 
       <ViewData type="Category" value={category} setValue={setCategory} />
 
       <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Product Rate</Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => setRate(text)}
-          defaultValue={rate}
-          placeholder="Product Rate"
-          keyboardType="number-pad"
-        />
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Product Rate</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setRate(text)}
+            defaultValue={rate}
+            keyboardType="number-pad"
+          />
+        </View>
       </View>
       <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Purchase Price</Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => setPurchaseRate(text)}
-          defaultValue={purchaseRate}
-          placeholder="Purchase Price"
-          keyboardType="number-pad"
-        />
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Purchase Price</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setPurchaseRate(text)}
+            defaultValue={purchaseRate}
+            keyboardType="number-pad"
+          />
+        </View>
       </View>
       <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Product Quantity</Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => setQuantity(text)}
-          defaultValue={quantity}
-          placeholder="Product Quantity"
-          keyboardType="number-pad"
-        />
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Product Quantity</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setQuantity(text)}
+            defaultValue={quantity}
+            keyboardType="number-pad"
+          />
+        </View>
       </View>
 
       <View style={styles.viewStyle}>
-        <Text style={styles.textStyle}>Date</Text>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={(text) => setDate(text)}
-          defaultValue={date}
-          placeholder="Date"
-          keyboardType="number-pad"
-        />
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Date</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setDate(text)}
+            defaultValue={date}
+            keyboardType="number-pad"
+          />
+        </View>
       </View>
 
       <ViewData type="Company" value={company} setValue={setCompany} />
@@ -156,8 +255,14 @@ const AddMasterData = ({ navigation }) => {
           style2={styles.buttonStyle2}
           onPress={handleClearButton}
         />
+        <MyButton
+          title="Delete"
+          style1={styles.buttonStyle1}
+          style2={styles.buttonStyle2}
+          onPress={handleDeleteButton}
+        />
       </View>
-    </>
+    </View>
   );
 };
 
@@ -168,13 +273,27 @@ AddMasterData.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#222",
+    flex: 1,
+  },
   viewStyle: {
     flexDirection: "row",
-    backgroundColor: "#FFDDDD",
+    backgroundColor: "#666",
     margin: 10,
     height: 50,
     borderRadius: 5,
     marginBottom: 0,
+  },
+  viewStyle1: {
+    flex: 3,
+    borderRadius: 5,
+    backgroundColor: "#666",
+  },
+  viewStyle2: {
+    flex: 7,
+    borderRadius: 5,
+    backgroundColor: "#AAA",
   },
   textStyle: {
     textAlignVertical: "center",
@@ -182,10 +301,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 3,
     height: "100%",
+    color: "white",
   },
   textInputStyle: {
     fontSize: 18,
     flex: 7,
+    paddingLeft: 10,
   },
   checkboxStyle: {},
   viewButtonStyle: {

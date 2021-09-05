@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Picker, StyleSheet, Text, View } from "react-native";
+import { Picker, StyleSheet, Text, View, Keyboard } from "react-native";
 import db from "../firebase.config";
 import { withNavigation } from "react-navigation";
 import MyButton from "./MyButton";
@@ -30,7 +30,10 @@ const ViewData = ({ type, value, setValue, navigation }) => {
         <Picker
           selectedValue={value}
           style={styles.pickerStyle}
-          onValueChange={(itemValue, itemIndex) => setValue(itemValue)}
+          onValueChange={(itemValue, itemIndex) => {
+            Keyboard.dismiss();
+            setValue(itemValue);
+          }}
         >
           <Picker.Item label="Select" />
           {data.map((item) => {
@@ -68,11 +71,11 @@ const styles = StyleSheet.create({
   },
   viewStyle1: {
     flex: 3,
-    backgroundColor: "#28cf02",
+    backgroundColor: "#666",
     borderRadius: 5,
   },
   viewStyle2: {
-    backgroundColor: "#e6841c",
+    backgroundColor: "#AAA",
     flex: 5,
     borderRadius: 5,
   },
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0000ff",
   },
   textStyle: {
-    color: "#1c1ce6",
+    color: "white",
     fontSize: 16,
     fontWeight: "900",
     textAlign: "center",

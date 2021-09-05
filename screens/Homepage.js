@@ -14,7 +14,7 @@ const Homepage = ({ navigation }) => {
         term={term}
         onTermChange={(newTerm) => setTerm(newTerm)}
       />
-      <HomepageTable searchedTerm={term} />
+      <HomepageTable searchedTerm={term} navigation={navigation} />
     </View>
   );
 };
@@ -32,10 +32,9 @@ Homepage.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#222",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 10,
   },
 });
 

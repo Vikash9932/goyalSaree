@@ -20,8 +20,8 @@ const HomepageSearch = ({ term, onTermChange }) => {
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    marginTop: 15,
-    backgroundColor: "#F0EEEE",
+    marginTop: 10,
+    backgroundColor: "#A0AAAA",
     height: 50,
     borderRadius: 5,
     marginHorizontal: 15,

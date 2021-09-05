@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-// import { LogBox, YellowBox } from "react-native";
+import { LogBox } from "react-native";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -11,7 +11,7 @@ import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
 
-// LogBox.ignoreWarnings(["Setting a timer for a long period of time"]);
+LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
 
 /*
 const Stack = createStackNavigator();

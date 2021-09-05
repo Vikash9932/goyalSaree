@@ -1,6 +1,57 @@
 //https://app.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
-
+//googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
 /*
+
+  // const itemParam = navigation.getParam("Item");
+  // if (itemParam) {
+  //   let quantity = navigation.getParam("Quantity");
+  //   setQuantity(quantity)
+  //   setQuantity(navigation.getParam("Quantity"));
+  //   setItem(navigation.getParam("Item"));
+  //   setRate(navigation.getParam("Rate"));
+  //   setPurchaseRate(navigation.getParam("PurchaseRate"));
+  //   setCompany(navigation.getParam("Company"));
+  //   setCategory(navigation.getParam("Category"));
+  //   setSubCategory(navigation.getParam("SubCategory"));
+  //   setAdhat(navigation.getParam("Adhat"));
+  //   setFirm(navigation.getParam("Firm"));
+  //   setDate(navigation.getParam("Date"));
+  //   setSold(navigation.getParam("Sold"));
+  // const {
+  //   Adhat,
+  //   Item,
+  //   Rate,
+  //   Firm,
+  //   Company,
+  //   Quantity,
+  //   Category,
+  //   SubCategory,
+  //   PurchaseRate,
+  //   Date,
+  //   Sold,
+  // } = params;
+  // setQuantity(Quantity);
+  // setItem(Item);
+  // setRate(Rate);
+  // setPurchaseRate(PurchaseRate);
+  // setCompany(Company);
+  // setCategory(Category);
+  // setSubCategory(SubCategory);
+  // setAdhat(Adhat);
+  // setFirm(Firm);
+  // setDate(Date);
+  // setSold(Sold);
+
+
+
+
+
+
+
+
+
+
+
 let moreData = [item.purchaseRate, item.Adhat, item.Firm];
 
 
@@ -149,7 +200,7 @@ import { DataTable } from "react-native-paper";
 
       
     */
-{
+https: {
   /* <DataTable>
           <DataTable.Header>
             <DataTable.Title numeric>Rate</DataTable.Title>
