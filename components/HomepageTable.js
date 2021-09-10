@@ -28,28 +28,18 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
       .collection("Master Data")
       .onSnapshot((documentSnapshot) => {
         let tempData = [];
-        documentSnapshot.docs.forEach(
-          (item) => (tempData = [...tempData, item.data()])
-        );
+        documentSnapshot.docs.forEach((item) => {
+          let eachData = {};
+          eachData = { id: item.id, ...item.data() };
+          tempData = [...tempData, eachData];
+        });
         setData(tempData);
       });
-
-    fetchID();
 
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
-
-  const fetchID = async () => {
-    db.collection("Master Data")
-      .where("Item", "==", "Aaisha")
-      .where("Rate", "==", 450)
-      .get()
-      .then((querySnapshot) => {
-        console.log(querySnapshot.docs[0].id);
-      });
-  };
-
+  console.log("data", data);
   const filterData = () => {
     return data.filter((datum) =>
       datum.Item.toLowerCase().includes(searchedTerm.toLowerCase())
@@ -102,7 +92,7 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
   );
   return (
     <FlatList
-      keyExtractor={(data) => data.Item + data.Adhat}
+      keyExtractor={(data) => data.id}
       data={filterData()}
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
@@ -119,7 +109,19 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
             <Text style={{ ...styles.columnRowTxt, fontWeight: "bold" }}>
               {item.Rate}
             </Text>
-            <Text style={styles.columnRowTxt}>{item.Item}</Text>
+            {item.Sold ? (
+              <Text
+                style={{
+                  ...styles.columnRowTxt,
+                  textDecorationLine: "line-through",
+                  textDecorationStyle: "solid",
+                }}
+              >
+                {item.Item}
+              </Text>
+            ) : (
+              <Text style={styles.columnRowTxt}>{item.Item}</Text>
+            )}
             <Text style={styles.columnRowTxt}>{item.Company}</Text>
             <Text style={styles.columnRowTxt}>{item.Quantity}</Text>
             <Picker
@@ -138,6 +140,7 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
                     PurchaseRate: item.PurchaseRate,
                     Date: item.Date,
                     Sold: item.Sold,
+                    Id: item.id,
                   });
                 }
               }}

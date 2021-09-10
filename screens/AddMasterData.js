@@ -18,51 +18,46 @@ const AddMasterData = ({ navigation }) => {
   const [firm, setFirm] = useState("");
   const [date, setDate] = useState("");
   const [sold, setSold] = useState(false);
-  const [masterData, setMasterData] = useState([]);
-  // console.log("Date", date);
+  const [editFlag, setEditFlag] = useState(false);
+  const [id, setId] = useState("");
 
   useEffect(() => {
-    const itemParam = navigation.getParam("Item");
-    if (itemParam) {
-      let {
-        Adhat,
-        Item,
-        Rate,
-        Firm,
-        Company,
-        Quantity,
-        Category,
-        SubCategory,
-        PurchaseRate,
-        Date,
-        Sold,
-      } = navigation.state.params;
-      setQuantity(Quantity.toString());
-      setItem(Item);
-      setRate(Rate.toString());
-      setPurchaseRate(PurchaseRate.toString());
-      setCompany(Company);
-      setCategory(Category);
-      setSubCategory(SubCategory);
-      setAdhat(Adhat);
-      setFirm(Firm);
-      setDate(Date);
-      setSold(Sold);
+    if (navigation.getParam("Id")) {
+      setEditFlag(true);
+      setId(navigation.getParam("Id"));
     }
   }, []);
 
   useEffect(() => {
-    fetchMasterData();
-  }, []);
+    if (id) {
+      console.log("Id to be updated: ", id);
+      fetchMasterData();
+    }
+  }, [id]);
 
-  const fetchMasterData = async () => {
-    const response = db.collection("Master Data");
-    const data = await response.get();
-    let tempData = [];
-    data.docs.forEach((item) => {
-      tempData = [...tempData, item.data()];
-    });
-    setMasterData(tempData);
+  const fetchMasterData = () => {
+    db.collection("Master Data")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        console.log("fetched data", doc.data());
+        let fetchedData = doc.data();
+        setQuantity(fetchedData.Quantity.toString());
+        setItem(fetchedData.Item);
+        setRate(fetchedData.Rate.toString());
+        setPurchaseRate(fetchedData.PurchaseRate.toString());
+        setCompany(fetchedData.Company);
+        setCategory(fetchedData.Category);
+        setSubCategory(fetchedData.SubCategory);
+        setAdhat(fetchedData.Adhat);
+        setFirm(fetchedData.Firm);
+        setDate(fetchedData.Date);
+        setSold(fetchedData.Sold);
+      })
+      .catch((err) => {
+        console.log("error while fetching", err);
+        Alert.alert("Nothing Fetched");
+      });
   };
 
   const handleAddButton = () => {
@@ -77,11 +72,6 @@ const AddMasterData = ({ navigation }) => {
       !purchaseRate
     ) {
       Alert.alert("Fill Empty Fields, please!");
-    } else if (
-      masterData &&
-      masterData.find((o) => o.Item.toLowerCase() === item.toLowerCase())
-    ) {
-      Alert.alert("Item already exists");
     } else {
       try {
         db.collection("Master Data").add({
@@ -102,6 +92,31 @@ const AddMasterData = ({ navigation }) => {
         console.log("Insertion Error", error);
       }
     }
+  };
+
+  const handleUpdateButton = () => {
+    db.collection("Master Data")
+      .doc(id)
+      .set({
+        Item: item,
+        Rate: Number(rate),
+        PurchaseRate: Number(purchaseRate),
+        Quantity: Number(quantity),
+        Adhat: adhat,
+        Category: category,
+        Company: company,
+        Firm: firm,
+        SubCategory: subCategory,
+        Date: date,
+        Sold: sold,
+      })
+      .then(() => {
+        Alert.alert("Item Updated");
+      })
+      .catch((error) => {
+        console.log("Error updating document: ", error);
+        Alert.alert("Nothing updated");
+      });
   };
 
   const handleClearButton = () => {
@@ -130,18 +145,11 @@ const AddMasterData = ({ navigation }) => {
   };
 
   const deleteYes = () => {
+    console.log("ID in Delete", id);
     db.collection("Master Data")
-      .where("Item", "==", item)
-      .where("Quantity", "==", Number(quantity))
-      .where("Rate", "==", Number(rate))
-      .where("PurchaseRate", "==", Number(purchaseRate))
-      .where("Company", "==", company)
-      .where("Category", "==", category)
-      .where("Adhat", "==", adhat)
-      .where("Firm", "==", firm)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.docs[0].ref.delete();
+      .doc(id)
+      .delete()
+      .then(() => {
         Alert.alert("Item Deleted");
         navigation.navigate("Dashboard");
       })
@@ -243,24 +251,35 @@ const AddMasterData = ({ navigation }) => {
         />
       </View>
       <View style={styles.viewButtonStyle}>
-        <MyButton
-          title="Add"
-          style1={styles.buttonStyle1}
-          style2={styles.buttonStyle2}
-          onPress={handleAddButton}
-        />
+        {editFlag ? (
+          <MyButton
+            title="Update"
+            style1={styles.buttonStyle1}
+            style2={styles.buttonStyle2}
+            onPress={handleUpdateButton}
+          />
+        ) : (
+          <MyButton
+            title="Add"
+            style1={styles.buttonStyle1}
+            style2={styles.buttonStyle2}
+            onPress={handleAddButton}
+          />
+        )}
         <MyButton
           title="Clear"
           style1={styles.buttonStyle1}
           style2={styles.buttonStyle2}
           onPress={handleClearButton}
         />
-        <MyButton
-          title="Delete"
-          style1={styles.buttonStyle1}
-          style2={styles.buttonStyle2}
-          onPress={handleDeleteButton}
-        />
+        {editFlag && (
+          <MyButton
+            title="Delete"
+            style1={styles.buttonStyle1}
+            style2={styles.buttonStyle2}
+            onPress={handleDeleteButton}
+          />
+        )}
       </View>
     </View>
   );

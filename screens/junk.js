@@ -1,6 +1,65 @@
 //https://app.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
 //googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
 /*
+    textDecorationLine: "line-through",
+                textDecorationStyle: "solid",
+
+useEffect(() => {
+    const itemParam = navigation.getParam("Item");
+    if (itemParam) {
+      let {
+        Adhat,
+        Item,
+        Rate,
+        Firm,
+        Company,
+        Quantity,
+        Category,
+        SubCategory,
+        PurchaseRate,
+        Date,
+        Sold,
+        ID
+      } = navigation.state.params;
+      setQuantity(Quantity.toString());
+      setItem(Item);
+      setRate(Rate.toString());
+      setPurchaseRate(PurchaseRate.toString());
+      setCompany(Company);
+      setCategory(Category);
+      setSubCategory(SubCategory);
+      setAdhat(Adhat);
+      setFirm(Firm);
+      setDate(Date);
+      setSold(Sold);
+      setId(ID);
+    }
+  }, []);
+
+ const fetchMasterData = async () => {
+    const response = db.collection("Master Data");
+    const data = await response.get();
+    let tempData = [];
+    data.docs.forEach((item) => {
+      tempData = [...tempData, item.data()];
+    });
+    setMasterData(tempData);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // const itemParam = navigation.getParam("Item");
   // if (itemParam) {
