@@ -2,7 +2,28 @@
 //googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
 /*
 
+ <Stack.Navigator initialRouteName="SignUp">
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{ title: "Goyal Saree" }}
+        />
+        <Stack.Screen name="Dashboard" component={Homepage} />
 
+import SignUp from "./screens/SignUp";
+
+
+// Adhat: item.Adhat,
+                    // Item: item.Item,
+                    // Rate: item.Rate,
+                    // Firm: item.Firm,
+                    // Company: item.Company,
+                    // Quantity: item.Quantity,
+                    // Category: item.Category,
+                    // SubCategory: item.SubCategory,
+                    // PurchaseRate: item.PurchaseRate,
+                    // Date: item.Date,
+                    // Sold: item.Sold,
 // const navigator = createStackNavigator(
 //   {
 //     Dashboard: Homepage,

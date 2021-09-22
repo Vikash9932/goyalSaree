@@ -93,3 +93,6 @@ import {MaterialIcons} from '@expo/vector/icons'
  rm node_modules/
  rm package-lock.json
  npm install
+ expo install
+ expo upgrade
+ 

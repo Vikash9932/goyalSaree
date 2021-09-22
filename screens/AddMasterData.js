@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, Text, View, Alert } from "react-native";
-import db from "../firebase.config";
+import { db } from "../firebase.config";
 // import DatePicker from "react-native-date-picker";
 import { CheckBox } from "react-native-elements";
 import ViewData from "../components/ViewData";
@@ -20,20 +20,18 @@ const AddMasterData = ({ route, navigation }) => {
   const [sold, setSold] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
   const [id, setId] = useState("");
-
+  // const navigation = navigation;
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "New Item",
     });
   });
-  const { itemId } = route.params;
 
   useEffect(() => {
-    // if (navigation.getParam("Id")) {
-    if (itemId) {
-      console.log("Item id", itemId);
+    if (route.params) {
+      console.log("Item id", route.params.itemId);
       setEditFlag(true);
-      setId(navigation.getParam("Id"));
+      setId(route.params.itemId);
     }
   }, []);
 
@@ -183,7 +181,12 @@ const AddMasterData = ({ route, navigation }) => {
         </View>
       </View>
 
-      <ViewData type="Category" value={category} setValue={setCategory} />
+      <ViewData
+        type="Category"
+        value={category}
+        setValue={setCategory}
+        navigation={navigation}
+      />
 
       <View style={styles.viewStyle}>
         <View style={styles.viewStyle1}>
@@ -198,19 +201,7 @@ const AddMasterData = ({ route, navigation }) => {
           />
         </View>
       </View>
-      <View style={styles.viewStyle}>
-        <View style={styles.viewStyle1}>
-          <Text style={styles.textStyle}>Purchase Price</Text>
-        </View>
-        <View style={styles.viewStyle2}>
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={(text) => setPurchaseRate(text)}
-            defaultValue={purchaseRate}
-            keyboardType="number-pad"
-          />
-        </View>
-      </View>
+
       <View style={styles.viewStyle}>
         <View style={styles.viewStyle1}>
           <Text style={styles.textStyle}>Product Quantity</Text>
@@ -220,6 +211,20 @@ const AddMasterData = ({ route, navigation }) => {
             style={styles.textInputStyle}
             onChangeText={(text) => setQuantity(text)}
             defaultValue={quantity}
+            keyboardType="number-pad"
+          />
+        </View>
+      </View>
+
+      <View style={styles.viewStyle}>
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Purchase Price</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setPurchaseRate(text)}
+            defaultValue={purchaseRate}
             keyboardType="number-pad"
           />
         </View>
@@ -239,16 +244,32 @@ const AddMasterData = ({ route, navigation }) => {
         </View>
       </View>
 
-      <ViewData type="Company" value={company} setValue={setCompany} />
+      <ViewData
+        type="Company"
+        value={company}
+        setValue={setCompany}
+        navigation={navigation}
+      />
 
-      <ViewData type="Adhat" value={adhat} setValue={setAdhat} />
+      <ViewData
+        type="Adhat"
+        value={adhat}
+        setValue={setAdhat}
+        navigation={navigation}
+      />
 
-      <ViewData type="Firm" value={firm} setValue={setFirm} />
+      <ViewData
+        type="Firm"
+        value={firm}
+        setValue={setFirm}
+        navigation={navigation}
+      />
 
       <ViewData
         type="SubCategory"
         value={subCategory}
         setValue={setSubCategory}
+        navigation={navigation}
       />
 
       <View style={styles.viewStyle}>

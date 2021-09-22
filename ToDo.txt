@@ -1,5 +1,5 @@
-1. Sort company, adhat, blah.....
-2. Quantity above purchase Rate
+1. Sort company, adhat, blah..... - Done
+2. Quantity above purchase Rate - Done
 3. Search based on type. Homescreen
 4. Limit the number of results on Dashboard 
 5. Authentication to be implemented

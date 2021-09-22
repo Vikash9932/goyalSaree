@@ -5,12 +5,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Picker,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import _ from "lodash";
 
-import db from "../firebase.config";
+import { db } from "../firebase.config";
 
 const HomepageTable = ({ searchedTerm, navigation }) => {
   const [data, setData] = useState([]);
@@ -33,7 +33,8 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
           eachData = { id: item.id, ...item.data() };
           tempData = [...tempData, eachData];
         });
-        setData(tempData);
+        const sortedData = _.sortBy(tempData, [(o) => o.Item]);
+        setData(sortedData);
       });
 
     // Stop listening for updates when no longer required
@@ -98,7 +99,7 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
       ListHeaderComponent={tableHeader}
       stickyHeaderIndices={[0]}
       // showsVerticalScrollIndicator={false}
-      initialNumToRender = {5}
+      initialNumToRender={5}
       renderItem={({ item, index }) => {
         return (
           <View
@@ -130,17 +131,6 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
               onValueChange={(itemValue, itemIndex) => {
                 if ((itemValue = "Edit")) {
                   navigation.navigate("MasterData", {
-                    // Adhat: item.Adhat,
-                    // Item: item.Item,
-                    // Rate: item.Rate,
-                    // Firm: item.Firm,
-                    // Company: item.Company,
-                    // Quantity: item.Quantity,
-                    // Category: item.Category,
-                    // SubCategory: item.SubCategory,
-                    // PurchaseRate: item.PurchaseRate,
-                    // Date: item.Date,
-                    // Sold: item.Sold,
                     itemId: item.id,
                   });
                 }

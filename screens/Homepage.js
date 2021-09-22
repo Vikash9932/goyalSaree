@@ -12,7 +12,7 @@ const Homepage = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("MasterData")}>
-          <Feather name="plus" size={30} style={{ marginRight: 20 }} />
+          <Feather name="plus" size={30} />
         </TouchableOpacity>
       ),
     });

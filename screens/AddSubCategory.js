@@ -1,7 +1,7 @@
 import React from "react";
 import AddData from "../components/AddData";
 
-const AddSubCategory = () => {
+const AddSubCategory = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "New Sub Category",

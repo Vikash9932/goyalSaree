@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { LogBox } from "react-native";
+import { LogBox } from "react-native";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -15,9 +15,9 @@ import AddSubCategory from "./screens/AddSubCategory";
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // React.useEffect(() => {
-  //   LogBox.ignoreAllLogs(true);
-  // }, []);
+  React.useEffect(() => {
+    LogBox.ignoreAllLogs(true);
+  }, []);
 
   return (
     <NavigationContainer>

@@ -1,7 +1,7 @@
 import React from "react";
 import AddData from "../components/AddData";
 
-const AddCompany = () => {
+const AddCompany = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "New Company",

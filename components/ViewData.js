@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Picker, StyleSheet, Text, View, Keyboard } from "react-native";
-import db from "../firebase.config";
-// import { withNavigation } from "react-navigation";
+import { StyleSheet, Text, View, Keyboard } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { db } from "../firebase.config";
 import MyButton from "./MyButton";
+import _ from "lodash";
 
 const ViewData = ({ type, value, setValue, navigation }) => {
   const [data, setData] = useState([]);
@@ -15,7 +16,8 @@ const ViewData = ({ type, value, setValue, navigation }) => {
         documentSnapshot.docs.forEach(
           (item) => (tempData = [...tempData, item.data()])
         );
-        setData(tempData);
+        const sortedData = _.sortBy(tempData, [(o) => o.Name]);
+        setData(sortedData);
       });
 
     return () => subscriber();
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
   pickerStyle: {
     fontSize: 16,
     fontWeight: "900",
+    height: "100%",
   },
   buttonStyle2: {
     color: "#ffffff",

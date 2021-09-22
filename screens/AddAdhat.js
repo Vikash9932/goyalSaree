@@ -2,7 +2,7 @@ import React from "react";
 
 import AddData from "../components/AddData";
 
-const AddAdhat = () => {
+const AddAdhat = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "New Adhat",

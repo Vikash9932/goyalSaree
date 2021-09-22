@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDbNa3jcniq66sPKsbIBWljPa_CJSv7CVI",
   authDomain: "goyalsaree-99edd.firebaseapp.com",
   databaseURL: "https://goyalsaree-99edd-default-rtdb.firebaseio.com",
@@ -18,6 +18,6 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export default db;

@@ -8,9 +8,9 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-import db from "../firebase.config";
+import { db } from "../firebase.config";
 import { MaterialIcons } from "@expo/vector-icons";
-
+import _ from "lodash";
 import MyButton from "./MyButton";
 
 const AddData = ({ type }) => {
@@ -25,7 +25,8 @@ const AddData = ({ type }) => {
         documentSnapshot.docs.forEach(
           (item) => (tempData = [...tempData, item.data()])
         );
-        setData(tempData);
+        const sortedData = _.sortBy(tempData, [(o) => o.Name]);
+        setData(sortedData);
       });
 
     // Stop listening for updates when no longer required
