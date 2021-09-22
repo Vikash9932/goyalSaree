@@ -1,6 +1,7 @@
-import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
-import { LogBox } from "react-native";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { LogBox } from "react-native";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -11,55 +12,30 @@ import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
 
-LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
+const Stack = createNativeStackNavigator();
 
-/*
-const Stack = createStackNavigator();
+const App = () => {
+  // React.useEffect(() => {
+  //   LogBox.ignoreAllLogs(true);
+  // }, []);
 
-const App1 = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={Homepage}>
+      <Stack.Navigator initialRouteName="Dashboard">
         <Stack.Screen
           name="Dashboard"
           component={Homepage}
           options={{ title: "Goyal Saree" }}
         />
-        <Stack.Screen name="NewData" component={AddData} />
         <Stack.Screen name="MasterData" component={AddMasterData} />
+        <Stack.Screen name="Adhat" component={AddAdhat} />
+        <Stack.Screen name="Category" component={AddCategory} />
+        <Stack.Screen name="Company" component={AddCompany} />
+        <Stack.Screen name="Firm" component={AddFirm} />
+        <Stack.Screen name="SubCategory" component={AddSubCategory} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-*/
-const navigator = createStackNavigator(
-  {
-    Dashboard: Homepage,
-    MasterData: AddMasterData,
-    Adhat: AddAdhat,
-    Category: AddCategory,
-    Company: AddCompany,
-    Firm: AddFirm,
-    SubCategory: AddSubCategory,
-    MasterData: AddMasterData,
-  },
-  {
-    initialRouteName: "Dashboard",
-    defaultNavigationOptions: {
-      title: "Goyal Saree",
-    },
-  }
-);
 
-export default createAppContainer(navigator);
-// export default App;
-
-/* Trash
-    Adhat: AddAdhat,
-    Category: AddCategory,
-    Company: AddCompany,
-    Firm: AddFirm,
-    SubCategory: AddSubCategory,
-    MasterData: AddMasterData,
-
-*/
+export default App;

@@ -1,0 +1,24 @@
+1. Sort company, adhat, blah.....
+2. Quantity above purchase Rate
+3. Search based on type. Homescreen
+4. Limit the number of results on Dashboard 
+5. Authentication to be implemented
+6. 
+
+
+
+
+
+
+
+
+
+
+
+
+Solution
+1.
+2.
+3.
+4. https://reactnative.dev/docs/optimizing-flatlist-configuration
+5.

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Picker, StyleSheet, Text, View, Keyboard } from "react-native";
 import db from "../firebase.config";
-import { withNavigation } from "react-navigation";
+// import { withNavigation } from "react-navigation";
 import MyButton from "./MyButton";
 
 const ViewData = ({ type, value, setValue, navigation }) => {
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(ViewData);
+export default ViewData;

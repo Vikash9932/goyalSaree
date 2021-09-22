@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -6,7 +6,17 @@ import HomepageTable from "../components/HomepageTable";
 import HomepageSearch from "../components/HomepageSearch";
 
 const Homepage = ({ navigation }) => {
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = React.useState("");
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => navigation.navigate("MasterData")}>
+          <Feather name="plus" size={30} style={{ marginRight: 20 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -19,15 +29,15 @@ const Homepage = ({ navigation }) => {
   );
 };
 
-Homepage.navigationOptions = ({ navigation }) => {
-  return {
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("MasterData")}>
-        <Feather name="plus" size={30} style={{ marginRight: 20 }} />
-      </TouchableOpacity>
-    ),
-  };
-};
+// Homepage.navigationOptions = ({ navigation }) => {
+//   return {
+//     headerRight: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("MasterData")}>
+//         <Feather name="plus" size={30} style={{ marginRight: 20 }} />
+//       </TouchableOpacity>
+//     ),
+//   };
+// };
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,72 @@
 //https://app.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
 //googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
 /*
+
+
+// const navigator = createStackNavigator(
+//   {
+//     Dashboard: Homepage,
+//     MasterData: AddMasterData,
+//     Adhat: AddAdhat,
+//     Category: AddCategory,
+//     Company: AddCompany,
+//     Firm: AddFirm,
+//     SubCategory: AddSubCategory,
+//     MasterData: AddMasterData,
+//   },
+//   {
+//     initialRouteName: "Dashboard",
+//     defaultNavigationOptions: {
+//       title: "Goyal Saree",
+//     },
+//   }
+// );
+
+// export default createAppContainer(navigator);
+
+
+Trash
+    Adhat: AddAdhat,
+    Category: AddCategory,
+    Company: AddCompany,
+    Firm: AddFirm,
+    SubCategory: AddSubCategory,
+    MasterData: AddMasterData,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     textDecorationLine: "line-through",
                 textDecorationStyle: "solid",
+
+
+
+
+
+
+
+
+
+
+
 
 useEffect(() => {
     const itemParam = navigation.getParam("Item");

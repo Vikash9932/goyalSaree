@@ -6,7 +6,7 @@ import { CheckBox } from "react-native-elements";
 import ViewData from "../components/ViewData";
 import MyButton from "../components/MyButton";
 
-const AddMasterData = ({ navigation }) => {
+const AddMasterData = ({ route, navigation }) => {
   const [quantity, setQuantity] = useState();
   const [item, setItem] = useState("");
   const [rate, setRate] = useState();
@@ -21,8 +21,17 @@ const AddMasterData = ({ navigation }) => {
   const [editFlag, setEditFlag] = useState(false);
   const [id, setId] = useState("");
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "New Item",
+    });
+  });
+  const { itemId } = route.params;
+
   useEffect(() => {
-    if (navigation.getParam("Id")) {
+    // if (navigation.getParam("Id")) {
+    if (itemId) {
+      console.log("Item id", itemId);
       setEditFlag(true);
       setId(navigation.getParam("Id"));
     }
@@ -285,11 +294,11 @@ const AddMasterData = ({ navigation }) => {
   );
 };
 
-AddMasterData.navigationOptions = () => {
-  return {
-    title: "New Item",
-  };
-};
+// AddMasterData.navigationOptions = () => {
+//   return {
+//     title: "New Item",
+//   };
+// };
 
 const styles = StyleSheet.create({
   container: {

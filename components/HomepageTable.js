@@ -39,7 +39,7 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
-  console.log("data", data);
+  // console.log("data", data);
   const filterData = () => {
     return data.filter((datum) =>
       datum.Item.toLowerCase().includes(searchedTerm.toLowerCase())
@@ -97,7 +97,8 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
       stickyHeaderIndices={[0]}
-      showsVerticalScrollIndicator={false}
+      // showsVerticalScrollIndicator={false}
+      initialNumToRender = {5}
       renderItem={({ item, index }) => {
         return (
           <View
@@ -129,18 +130,18 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
               onValueChange={(itemValue, itemIndex) => {
                 if ((itemValue = "Edit")) {
                   navigation.navigate("MasterData", {
-                    Adhat: item.Adhat,
-                    Item: item.Item,
-                    Rate: item.Rate,
-                    Firm: item.Firm,
-                    Company: item.Company,
-                    Quantity: item.Quantity,
-                    Category: item.Category,
-                    SubCategory: item.SubCategory,
-                    PurchaseRate: item.PurchaseRate,
-                    Date: item.Date,
-                    Sold: item.Sold,
-                    Id: item.id,
+                    // Adhat: item.Adhat,
+                    // Item: item.Item,
+                    // Rate: item.Rate,
+                    // Firm: item.Firm,
+                    // Company: item.Company,
+                    // Quantity: item.Quantity,
+                    // Category: item.Category,
+                    // SubCategory: item.SubCategory,
+                    // PurchaseRate: item.PurchaseRate,
+                    // Date: item.Date,
+                    // Sold: item.Sold,
+                    itemId: item.id,
                   });
                 }
               }}

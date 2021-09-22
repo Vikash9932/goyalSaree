@@ -88,3 +88,8 @@ import {MaterialIcons} from '@expo/vector/icons'
 
 <MaterialIcons name="delete" 
  
+
+ npm cache clean --f
+ rm node_modules/
+ rm package-lock.json
+ npm install
