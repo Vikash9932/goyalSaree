@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { LogBox } from "react-native";
+// import { LogBox } from "react-native";
 
 //import different Screens
 import AddAdhat from "./screens/AddAdhat";
@@ -11,22 +11,24 @@ import AddCompany from "./screens/AddCompany";
 import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
+import SignUp from "./screens/SignUp";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  React.useEffect(() => {
-    LogBox.ignoreAllLogs(true);
-  }, []);
+  // React.useEffect(() => {
+  //   LogBox.ignoreLogs(true);
+  // }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Dashboard">
+      <Stack.Navigator initialRouteName="SignUp">
         <Stack.Screen
-          name="Dashboard"
-          component={Homepage}
+          name="SignUp"
+          component={SignUp}
           options={{ title: "Goyal Saree" }}
         />
+        <Stack.Screen name="Dashboard" component={Homepage} />
         <Stack.Screen name="MasterData" component={AddMasterData} />
         <Stack.Screen name="Adhat" component={AddAdhat} />
         <Stack.Screen name="Category" component={AddCategory} />

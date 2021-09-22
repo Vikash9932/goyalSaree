@@ -96,3 +96,13 @@ import {MaterialIcons} from '@expo/vector/icons'
  expo install
  expo upgrade
  
+ {
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": true,
+        ".write": "$uid === auth.uid"
+      }
+    }
+  }
+}

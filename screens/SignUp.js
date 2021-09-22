@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import firebase from "firebase/app";
-// import { FirebaseRecaptcha } from "expo-firebase-recaptcha";
+import { FirebaseRecaptcha } from "expo-firebase-recaptcha";
 import { firebaseConfig as FIREBASE_CONFIG } from "../firebase.config";
 
 const SignUp = ({ navigation }) => {
@@ -27,10 +27,10 @@ const SignUp = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        {/* <FirebaseRecaptcha.FirebaseRecaptchaVerifierModal
+        <FirebaseRecaptcha.FirebaseRecaptchaVerifierModal
           ref={recaptchaVerifier}
           firebaseConfig={FIREBASE_CONFIG}
-        /> */}
+        />
         <Text style={styles.title}>Sign In </Text>
         <Text style={styles.text}>Enter phone number</Text>
         <TextInput
@@ -53,9 +53,9 @@ const SignUp = ({ navigation }) => {
               setVerifyInProgress(true);
               setVerificationId("");
               const verificationId = await phoneProvider.verifyPhoneNumber(
-                phoneNumber
+                phoneNumber,
                 // @ts-ignore
-                // recaptchaVerifier.current
+                recaptchaVerifier.current
               );
               setVerifyInProgress(false);
               setVerificationId(verificationId);
@@ -69,7 +69,7 @@ const SignUp = ({ navigation }) => {
         {verifyError && (
           <Text style={styles.error}>{`Error: ${verifyError.message}`}</Text>
         )}
-        {/* {verifyInProgress && <ActivityIndicator style={styles.loader} />} */}
+        {verifyInProgress && <ActivityIndicator style={styles.loader} />}
         {verificationId ? (
           <Text style={styles.success}>
             A verification code has been sent to your phone
@@ -115,7 +115,7 @@ const SignUp = ({ navigation }) => {
         {confirmError && (
           <Text style={styles.error}>{`Error: ${confirmError.message}`}</Text>
         )}
-        {/* {confirmInProgress && <ActivityIndicator style={styles.loader} />} */}
+        {confirmInProgress && <ActivityIndicator style={styles.loader} />}
       </View>
       {!isConfigValid && (
         <View style={styles.overlay} pointerEvents="none">
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   overlay: {
-    // ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: "#FFFFFFC0",
     justifyContent: "center",
     alignItems: "center",
