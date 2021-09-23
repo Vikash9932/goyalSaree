@@ -11,7 +11,6 @@ import AddCompany from "./screens/AddCompany";
 import AddFirm from "./screens/AddFirm";
 import AddCategory from "./screens/AddCategory";
 import AddSubCategory from "./screens/AddSubCategory";
-import SignUp from "./screens/SignUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,13 +21,12 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignUp">
+      <Stack.Navigator initialRouteName="Dashboard">
         <Stack.Screen
-          name="SignUp"
-          component={SignUp}
+          name="Dashboard"
+          component={Homepage}
           options={{ title: "Goyal Saree" }}
         />
-        <Stack.Screen name="Dashboard" component={Homepage} />
         <Stack.Screen name="MasterData" component={AddMasterData} />
         <Stack.Screen name="Adhat" component={AddAdhat} />
         <Stack.Screen name="Category" component={AddCategory} />
