@@ -14,7 +14,7 @@ import AddSubCategory from "./screens/AddSubCategory";
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+const App1 = () => {
   // React.useEffect(() => {
   //   LogBox.ignoreLogs(true);
   // }, []);
@@ -38,4 +38,10 @@ const App = () => {
   );
 };
 
-export default App;
+// export default App;
+
+import Routes from "./navigation/index";
+
+export default function App() {
+  return <Routes />;
+}

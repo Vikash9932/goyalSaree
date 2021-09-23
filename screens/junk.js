@@ -1,7 +1,7 @@
 //https://app.pluralsight.com/guides/consume-data-from-firebase-firestore-in-a-react-app
 //googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
 /*
-
+<Stack.Navigator headerMode="none">
  <Stack.Navigator initialRouteName="SignUp">
         <Stack.Screen
           name="SignUp"

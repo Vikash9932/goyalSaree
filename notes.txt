@@ -106,3 +106,6 @@ import {MaterialIcons} from '@expo/vector/icons'
     }
   }
 }
+
+Update profile and all that
+https://firebase.google.com/docs/auth/web/manage-users
