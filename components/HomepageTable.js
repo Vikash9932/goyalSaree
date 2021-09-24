@@ -16,13 +16,6 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
-  const columns = [
-    { name: "Rate" },
-    { name: "Item" },
-    { name: "Company" },
-    { name: "Qty" },
-    { name: "More" },
-  ];
   useEffect(() => {
     const subscriber = db
       .collection("Master Data")
@@ -65,30 +58,91 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
 
   const tableHeader = () => (
     <View style={styles.tableHeader}>
-      {columns.map((column, index) => {
-        {
-          return (
-            <TouchableOpacity
-              key={index}
-              style={styles.columnHeader}
-              onPress={() => sortTable(column.name)}
-            >
-              <Text style={styles.columnHeaderTxt}>
-                {column.name + " "}
-                {selectedColumn === column.name && (
-                  <MaterialCommunityIcons
-                    name={
-                      direction === "desc"
-                        ? "arrow-down-drop-circle"
-                        : "arrow-up-drop-circle"
-                    }
-                  />
-                )}
-              </Text>
-            </TouchableOpacity>
-          );
-        }
-      })}
+      <TouchableOpacity
+        style={{ ...styles.columnHeader, flex: 1.5 }}
+        onPress={() => sortTable("Rate")}
+      >
+        <Text style={styles.columnHeaderTxt}>
+          Rate
+          {selectedColumn === "Rate" && (
+            <MaterialCommunityIcons
+              name={
+                direction === "desc"
+                  ? "arrow-down-drop-circle"
+                  : "arrow-up-drop-circle"
+              }
+            />
+          )}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styles.columnHeader, flex: 3 }}
+        onPress={() => sortTable("Item")}
+      >
+        <Text style={styles.columnHeaderTxt}>
+          Item
+          {selectedColumn === "Item" && (
+            <MaterialCommunityIcons
+              name={
+                direction === "desc"
+                  ? "arrow-down-drop-circle"
+                  : "arrow-up-drop-circle"
+              }
+            />
+          )}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styles.columnHeader, flex: 3 }}
+        onPress={() => sortTable("Company")}
+      >
+        <Text style={styles.columnHeaderTxt}>
+          Company
+          {selectedColumn === "Company" && (
+            <MaterialCommunityIcons
+              name={
+                direction === "desc"
+                  ? "arrow-down-drop-circle"
+                  : "arrow-up-drop-circle"
+              }
+            />
+          )}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styles.columnHeader, flex: 1.5 }}
+        onPress={() => sortTable("Qty")}
+      >
+        <Text style={styles.columnHeaderTxt}>
+          Qty
+          {selectedColumn === "Qty" && (
+            <MaterialCommunityIcons
+              name={
+                direction === "desc"
+                  ? "arrow-down-drop-circle"
+                  : "arrow-up-drop-circle"
+              }
+            />
+          )}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styles.columnHeader, flex: 1 }}
+        onPress={() => sortTable("More")}
+      >
+        <Text style={styles.columnHeaderTxt}>
+          ..
+          {selectedColumn === "More" && (
+            <MaterialCommunityIcons
+              name={
+                direction === "desc"
+                  ? "arrow-down-drop-circle"
+                  : "arrow-up-drop-circle"
+              }
+            />
+          )}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
   return (
@@ -108,7 +162,9 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
               backgroundColor: index % 2 == 1 ? "#C0CACA" : "#D0DCDC",
             }}
           >
-            <Text style={{ ...styles.columnRowTxt, fontWeight: "bold" }}>
+            <Text
+              style={{ ...styles.columnRowTxt, fontWeight: "bold", flex: 1.5 }}
+            >
               {item.Rate}
             </Text>
             {item.Sold ? (
@@ -117,17 +173,33 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
                   ...styles.columnRowTxt,
                   textDecorationLine: "line-through",
                   textDecorationStyle: "solid",
+                  fontWeight: "bold",
+                  flex: 3,
+                  marginRight: 5,
                 }}
               >
                 {item.Item}
               </Text>
             ) : (
-              <Text style={styles.columnRowTxt}>{item.Item}</Text>
+              <Text
+                style={{
+                  ...styles.columnRowTxt,
+                  fontWeight: "bold",
+                  flex: 3,
+                  marginRight: 5,
+                }}
+              >
+                {item.Item}
+              </Text>
             )}
-            <Text style={styles.columnRowTxt}>{item.Company}</Text>
-            <Text style={styles.columnRowTxt}>{item.Quantity}</Text>
+            <Text style={{ ...styles.columnRowTxt, flex: 3 }}>
+              {item.Company}
+            </Text>
+            <Text style={{ ...styles.columnRowTxt, flex: 1.5 }}>
+              {item.Quantity}
+            </Text>
             <Picker
-              style={styles.columnRowTxt}
+              style={{ ...styles.columnRowTxt, flex: 1 }}
               onValueChange={(itemValue, itemIndex) => {
                 if ((itemValue = "Edit")) {
                   navigation.navigate("MasterData", {
@@ -180,8 +252,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   columnRowTxt: {
-    width: "20%",
     textAlign: "center",
+    // margin:10
   },
 });
 

@@ -2,8 +2,12 @@
 2. Quantity above purchase Rate - Done
 3. Search based on type. Homescreen
 4. Limit the number of results on Dashboard 
-5. Authentication to be implemented
-6. 
+5. Authentication to be implemented ... Done
+6. Change Icon ... Developed ... 
+7. Touch anywhere keyboard close
+8. Spacing. and Bold Item
+9. Rate starting with a number
+10. 
 
 
 
