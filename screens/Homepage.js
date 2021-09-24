@@ -9,6 +9,7 @@ import firebase from "firebase/app";
 const auth = firebase.auth();
 const Homepage = ({ navigation }) => {
   const [term, setTerm] = React.useState("");
+  const [type, setType] = React.useState("Item");
   const { user } = React.useContext(AuthenticatedUserContext);
 
   const handleSignOutYes = async () => {
@@ -43,14 +44,20 @@ const Homepage = ({ navigation }) => {
       ),
     });
   }, [navigation]);
-  console.log("user", user.email, user.uid);
+  // console.log("user", user.email, user.uid);
   return (
     <View style={styles.container}>
       <HomepageSearch
         term={term}
         onTermChange={(newTerm) => setTerm(newTerm)}
+        type={type}
+        onTypeChange={(newType) => setType(newType)}
       />
-      <HomepageTable searchedTerm={term} navigation={navigation} />
+      <HomepageTable
+        searchedTerm={term}
+        searchedType={type}
+        navigation={navigation}
+      />
     </View>
   );
 };
