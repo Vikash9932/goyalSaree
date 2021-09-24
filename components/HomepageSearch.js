@@ -1,9 +1,27 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
-
-const HomepageSearch = ({ term, onTermChange }) => {
+import { Picker } from "@react-native-picker/picker";
+const HomepageSearch = ({ term, onTermChange, type, onTypeChange }) => {
   return (
+    // <View>
+    // <View>
+    //   <Picker
+    //     selectedValue={type}
+    //     style={styles.pickerStyle}
+    //     onValueChange={(itemValue, itemIndex) => {
+    //       Keyboard.dismiss();
+    //       onTypeChange(itemValue);
+    //     }}
+    //   >
+    //     <Picker.Item label="Item" value="Item" />
+    //     <Picker.Item label="Adhat" value="Adhat" />
+    //     <Picker.Item label="Firm" value="Firm" />
+    //     <Picker.Item label="Company" value="Company" />
+    //     <Picker.Item label="Category" value="Category" />
+    //     <Picker.Item label="Sub Category" value="SubCategory" />
+    //   </Picker>
+    // </View>
     <View style={styles.backgroundStyle}>
       <Feather name="search" style={styles.iconStyle} />
       <TextInput
@@ -15,6 +33,7 @@ const HomepageSearch = ({ term, onTermChange }) => {
         onChangeText={(newTerm) => onTermChange(newTerm)}
       />
     </View>
+    // </View>
   );
 };
 
@@ -36,6 +55,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: "center",
     marginHorizontal: 15,
+  },
+  pickerStyle: {
+    fontSize: 16,
+    fontWeight: "900",
+    height: "100%",
   },
 });
 export default HomepageSearch;

@@ -12,7 +12,7 @@ import _ from "lodash";
 
 import { db } from "../firebase.config";
 
-const HomepageTable = ({ searchedTerm, navigation }) => {
+const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
@@ -38,12 +38,14 @@ const HomepageTable = ({ searchedTerm, navigation }) => {
       });
 
     // Stop listening for updates when no longer required
-    return () => subscriber();
+    return () => {
+      subscriber();
+    };
   }, []);
   // console.log("data", data);
   const filterData = () => {
     return data.filter((datum) =>
-      datum.Item.toLowerCase().includes(searchedTerm.toLowerCase())
+      datum[searchedType].toLowerCase().includes(searchedTerm.toLowerCase())
     );
   };
 

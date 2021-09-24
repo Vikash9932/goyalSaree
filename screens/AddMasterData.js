@@ -33,12 +33,18 @@ const AddMasterData = ({ route, navigation }) => {
       setEditFlag(true);
       setId(route.params.itemId);
     }
+    return () => {
+      setEditFlag(false);
+      setId("");
+    };
   }, []);
 
   useEffect(() => {
     if (id) {
       console.log("Id to be updated: ", id);
       fetchMasterData();
+    } else {
+      handleClearButton();
     }
   }, [id]);
 
@@ -102,28 +108,41 @@ const AddMasterData = ({ route, navigation }) => {
   };
 
   const handleUpdateButton = () => {
-    db.collection("Master Data")
-      .doc(id)
-      .set({
-        Item: item,
-        Rate: Number(rate),
-        PurchaseRate: Number(purchaseRate),
-        Quantity: Number(quantity),
-        Adhat: adhat,
-        Category: category,
-        Company: company,
-        Firm: firm,
-        SubCategory: subCategory,
-        Date: date,
-        Sold: sold,
-      })
-      .then(() => {
-        Alert.alert("Item Updated");
-      })
-      .catch((error) => {
-        console.log("Error updating document: ", error);
-        Alert.alert("Nothing updated");
-      });
+    if (
+      !adhat ||
+      !category ||
+      !company ||
+      !firm ||
+      !quantity ||
+      !item ||
+      !rate ||
+      !purchaseRate
+    ) {
+      Alert.alert("Fill Empty Fields, please!");
+    } else {
+      db.collection("Master Data")
+        .doc(id)
+        .set({
+          Item: item,
+          Rate: Number(rate),
+          PurchaseRate: Number(purchaseRate),
+          Quantity: Number(quantity),
+          Adhat: adhat,
+          Category: category,
+          Company: company,
+          Firm: firm,
+          SubCategory: subCategory,
+          Date: date,
+          Sold: sold,
+        })
+        .then(() => {
+          Alert.alert("Item Updated");
+        })
+        .catch((error) => {
+          console.log("Error updating document: ", error);
+          Alert.alert("Nothing updated");
+        });
+    }
   };
 
   const handleClearButton = () => {
