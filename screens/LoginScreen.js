@@ -1,10 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View, Button as RNButton } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { Button, InputField, ErrorMessage } from "../components";
-// import Firebase from '../config/firebase';
 import firebase from "firebase/app";
 const auth = firebase.auth();
 
@@ -14,6 +13,7 @@ export default function LoginScreen({ navigation }) {
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState("eye");
   const [loginError, setLoginError] = useState("");
+  const [login, setLogin] = useState(true);
 
   const handlePasswordVisibility = () => {
     if (rightIcon === "eye") {
@@ -28,7 +28,11 @@ export default function LoginScreen({ navigation }) {
   const onLogin = async () => {
     try {
       if (email !== "" && password !== "") {
-        await auth.signInWithEmailAndPassword(email, password);
+        if (login) {
+          await auth.signInWithEmailAndPassword(email, password);
+        } else {
+          await auth.createUserWithEmailAndPassword(email, password);
+        }
       }
     } catch (error) {
       setLoginError(error.message);
@@ -38,7 +42,11 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style="dark-content" />
-      <Text style={styles.title}>Login</Text>
+      {login ? (
+        <Text style={styles.title}>Login</Text>
+      ) : (
+        <Text style={styles.title}>Create new account</Text>
+      )}
       <InputField
         inputStyle={{
           fontSize: 14,
@@ -79,18 +87,38 @@ export default function LoginScreen({ navigation }) {
       <Button
         onPress={onLogin}
         backgroundColor="#f57c00"
-        title="Login"
+        title={login ? "Login" : "Signup"}
         tileColor="#fff"
         titleSize={20}
         containerStyle={{
           marginBottom: 24,
         }}
       />
-      <RNButton
-        onPress={() => navigation.navigate("Signup")}
-        title="Go to Signup"
-        color="#000"
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        {login ? (
+          <Text>New User? </Text>
+        ) : (
+          <Text>Already have an account? </Text>
+        )}
+
+        <TouchableOpacity
+          onPress={() => {
+            setLogin(!login);
+            setLoginError("");
+          }}
+        >
+          {login ? (
+            <Text style={{ color: "blue" }}>SignUp</Text>
+          ) : (
+            <Text style={{ color: "blue" }}>Login</Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -98,14 +126,14 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#222",
+    backgroundColor: "#BBB",
     paddingTop: 50,
     paddingHorizontal: 12,
   },
   title: {
     fontSize: 24,
     fontWeight: "600",
-    color: "#fff",
+    color: "#00f",
     alignSelf: "center",
     paddingBottom: 24,
   },

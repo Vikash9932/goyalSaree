@@ -1,13 +1,17 @@
 1. Sort company, adhat, blah.....               - Done
 2. Quantity above purchase Rate                 - Done
-3. Search based on type. Homescreen             - 
+3. Search based on type. Homescreen             - Done
 4. Limit the number of results on Dashboard     - 
 5. Authentication to be implemented             - Done
 6. Change Icon                                  - Developed
 7. Touch anywhere keyboard close    
 8. Spacing. and Bold Item                       - Developed
-9. Rate starting with a number
-10. 
+9. Rate starting with a number                  - Done
+10. Offline database and                         
+11. Sign Up Login Design                        - 
+12. Date picker
+13. Pull Refresh                                - Done
+
 
 
 

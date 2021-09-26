@@ -109,3 +109,10 @@ import {MaterialIcons} from '@expo/vector/icons'
 
 Update profile and all that
 https://firebase.google.com/docs/auth/web/manage-users
+
+Load More ... lazy loading...
+https://levelup.gitconnected.com/react-native-firebase-cloud-firestore-implementing-infinite-scroll-lazy-loading-with-flatlist-a9e942cf66c6
+
+Pull to Refresh
+https://reactnative.dev/docs/refreshcontrol
+

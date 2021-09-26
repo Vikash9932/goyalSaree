@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -16,24 +17,48 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const [data, setData] = useState([]);
   const [direction, setDirection] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  // useEffect(() => {
+  //   const subscriber = db
+  //     .collection("Master Data")
+  //     .onSnapshot((documentSnapshot) => {
+  //       let tempData = [];
+  //       documentSnapshot.docs.forEach((item) => {
+  //         let eachData = {};
+  //         eachData = { id: item.id, ...item.data() };
+  //         tempData = [...tempData, eachData];
+  //       });
+  //       const sortedData = _.sortBy(tempData, [(o) => o.Item]);
+  //       setData(sortedData);
+  //     });
+
+  //   // Stop listening for updates when no longer required
+  //   return () => subscriber();
+  // }, []);
 
   useEffect(() => {
-    const subscriber = db
-      .collection("Master Data")
-      .onSnapshot((documentSnapshot) => {
-        let tempData = [];
-        documentSnapshot.docs.forEach((item) => {
-          let eachData = {};
-          eachData = { id: item.id, ...item.data() };
-          tempData = [...tempData, eachData];
-        });
-        const sortedData = _.sortBy(tempData, [(o) => o.Item]);
-        setData(sortedData);
-      });
-
-    // Stop listening for updates when no longer required
-    return () => subscriber();
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    console.log("Inside fetchData");
+    const response = db.collection("Master Data");
+    const fetchedData = await response.get();
+    let tempData = [];
+    fetchedData.docs.forEach((item) => {
+      let eachData = { id: item.id, ...item.data() };
+      tempData = [...tempData, eachData];
+    });
+    const sortedData = _.sortBy(tempData, [(o) => o.Item]);
+    setData(sortedData);
+    setRefreshing(false);
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+  };
 
   const filterData = () => {
     if (searchedType === "Rate") {
@@ -161,6 +186,9 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
       stickyHeaderIndices={[0]}
       // showsVerticalScrollIndicator={false}
       initialNumToRender={5}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       renderItem={({ item, index }) => {
         return (
           <View

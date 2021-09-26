@@ -19,6 +19,10 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
+firebase.firestore().settings({
+  cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED,
+});
+
 export const db = firebase.firestore();
 
 // export default db;
