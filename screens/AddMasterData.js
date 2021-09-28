@@ -5,6 +5,7 @@ import { db } from "../firebase.config";
 import { CheckBox } from "react-native-elements";
 import ViewData from "../components/ViewData";
 import MyButton from "../components/MyButton";
+import DatePicker from "../components/DatePicker";
 
 const AddMasterData = ({ route, navigation }) => {
   const [quantity, setQuantity] = useState();
@@ -16,7 +17,7 @@ const AddMasterData = ({ route, navigation }) => {
   const [subCategory, setSubCategory] = useState("");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [sold, setSold] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
   const [id, setId] = useState("");
@@ -235,12 +236,7 @@ const AddMasterData = ({ route, navigation }) => {
           <Text style={styles.textStyle}>Date</Text>
         </View>
         <View style={styles.viewStyle2}>
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={(text) => setDate(text)}
-            defaultValue={date}
-            keyboardType="number-pad"
-          />
+          <DatePicker date={date} setDate={setDate} />
         </View>
       </View>
 

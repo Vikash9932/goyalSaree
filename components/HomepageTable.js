@@ -50,7 +50,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const fetchData = async () => {
     console.log("Inside fetchData");
     const response = db.collection("Master Data");
-    const fetchedData = await response.get();
+    const fetchedData = await response.limit(50).get();
     let tempData = [];
     fetchedData.docs.forEach((item) => {
       let eachData = { id: item.id, ...item.data() };
@@ -102,10 +102,10 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
       default:
         break;
     }
-    const sortedData = _.orderBy(data, [columnLower], [newDirection]);
+    const sortedData = _.orderBy(tempData, [columnLower], [newDirection]);
     setSelectedColumn(column);
     setDirection(newDirection);
-    setData(sortedData);
+    setTempData(sortedData);
   };
 
   const tableHeader = () => (

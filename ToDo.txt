@@ -1,14 +1,14 @@
 1. Sort company, adhat, blah.....               - Done
 2. Quantity above purchase Rate                 - Done
 3. Search based on type. Homescreen             - Done
-4. Limit the number of results on Dashboard     - 
+4. Limit the number of results on Dashboard     - Done
 5. Authentication to be implemented             - Done
 6. Change Icon                                  - Developed
 7. Touch anywhere keyboard close    
 8. Spacing. and Bold Item                       - Developed
 9. Rate starting with a number                  - Done
-10. Offline database and                         
-11. Sign Up Login Design                        - 
+10. Offline database                         
+11. Sign Up Login Design                        - Done
 12. Date picker
 13. Pull Refresh                                - Done
 
@@ -30,3 +30,4 @@ Solution
 3.
 4. https://reactnative.dev/docs/optimizing-flatlist-configuration
 5.
+12. https://github.com/react-native-datetimepicker/datetimepicker#dateFormat-optional-windows-only
