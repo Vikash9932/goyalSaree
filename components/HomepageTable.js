@@ -18,7 +18,8 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const [direction, setDirection] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [refreshing, setRefreshing] = React.useState(false);
-
+  const [tempData, setTempData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   // useEffect(() => {
   //   const subscriber = db
   //     .collection("Master Data")
@@ -38,8 +39,13 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   // }, []);
 
   useEffect(() => {
+    setRefreshing(true);
     fetchData();
   }, []);
+
+  useEffect(() => {
+    filterDataFunc();
+  }, [searchedTerm, searchedType]);
 
   const fetchData = async () => {
     console.log("Inside fetchData");
@@ -52,6 +58,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
     });
     const sortedData = _.sortBy(tempData, [(o) => o.Item]);
     setData(sortedData);
+    setTempData(sortedData.slice(0, 10));
     setRefreshing(false);
   };
 
@@ -60,16 +67,29 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
     fetchData();
   };
 
-  const filterData = () => {
+  const handleLoadMore = () => {
+    let loadMore = [];
+    if (searchedTerm.length > 0) {
+      loadMore = filterData.slice(tempData.length, tempData.length + 10);
+    } else {
+      loadMore = data.slice(tempData.length, tempData.length + 10);
+    }
+    setTempData([...tempData, ...loadMore]);
+  };
+
+  const filterDataFunc = () => {
+    let filteredData = [];
     if (searchedType === "Rate") {
-      return data.filter((datum) =>
+      filteredData = data.filter((datum) =>
         datum[searchedType].toString().startsWith(searchedTerm)
       );
     } else {
-      return data.filter((datum) =>
+      filteredData = data.filter((datum) =>
         datum[searchedType].toLowerCase().includes(searchedTerm.toLowerCase())
       );
     }
+    setFilterData(filteredData);
+    setTempData(filteredData.slice(0, 10));
   };
 
   const sortTable = (column) => {
@@ -177,15 +197,30 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
       </TouchableOpacity>
     </View>
   );
+
+  const tableFooter = () => (
+    <View>
+      <TouchableOpacity onPress={handleLoadMore}>
+        <Text style={styles.tableFooter}>Load More ...</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <FlatList
       keyExtractor={(data) => data.id}
-      data={filterData()}
+      // data={filterData()}
+      data={tempData}
       style={{ width: "95%" }}
       ListHeaderComponent={tableHeader}
       stickyHeaderIndices={[0]}
       // showsVerticalScrollIndicator={false}
-      initialNumToRender={5}
+      // initialNumToRender={5}
+      // onEndReachedThreshold={5} // so when you are at 5 pixel from the bottom react run onEndReached function
+      // onEndReached={() => {
+      //   handleLoadMore();
+      // }}
+      ListFooterComponent={tableFooter}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -289,6 +324,15 @@ const styles = StyleSheet.create({
   columnRowTxt: {
     textAlign: "center",
     // margin:10
+  },
+  tableFooter: {
+    backgroundColor: "#C0CACA",
+    height: 30,
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: "blue",
+    width: "100%",
+    borderWidth: 0,
   },
 });
 
