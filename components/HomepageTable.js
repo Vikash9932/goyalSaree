@@ -11,6 +11,9 @@ import { Picker } from "@react-native-picker/picker";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import _ from "lodash";
 
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("db.priceList");
+
 import { db } from "../firebase.config";
 
 const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
@@ -20,23 +23,28 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [tempData, setTempData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  // useEffect(() => {
-  //   const subscriber = db
-  //     .collection("Master Data")
-  //     .onSnapshot((documentSnapshot) => {
-  //       let tempData = [];
-  //       documentSnapshot.docs.forEach((item) => {
-  //         let eachData = {};
-  //         eachData = { id: item.id, ...item.data() };
-  //         tempData = [...tempData, eachData];
-  //       });
-  //       const sortedData = _.sortBy(tempData, [(o) => o.Item]);
-  //       setData(sortedData);
-  //     });
+  const [dataSQL, setDataSQL] = useState([]);
+  //https://reactdevstation.github.io/2020/04/04/sqllite.html
 
-  //   // Stop listening for updates when no longer required
-  //   return () => subscriber();
-  // }, []);
+  db.transaction((tx) => {
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY, ADHAT text, CATEGORY text, COMPANY text, DATE text, FIRM text, ITEM text, PURCHASERATE INT, QUANTITY INT, RATE INT, SOLD INT, SUBCATEGORY Text"
+    );
+  });
+
+  fetchDataSQLite = () => {
+    db.transaction((tx) => {
+      // sending 4 arguments in executeSql
+      tx.executeSql(
+        "SELECT * FROM entries",
+        null, // passing sql query and parameters:null
+        // success callback which sends two things Transaction object and ResultSet Object
+        (txObj, { rows: { _array } }) => setDataSQL(_array),
+        // failure callback which sends two things Transaction object and Error
+        (txObj, error) => console.log("Error ", error)
+      ); // end executeSQL
+    }); // end transaction
+  };
 
   useEffect(() => {
     setRefreshing(true);
