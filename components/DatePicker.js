@@ -7,9 +7,9 @@ const DatePicker = ({ date, setDate }) => {
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate;
     setShow(Platform.OS === "Android");
-    setDate(currentDate);
+    setDate(currentDate.toDateString());
   };
 
   const showDatepicker = () => {
@@ -49,13 +49,13 @@ const DatePicker = ({ date, setDate }) => {
             flex: 8,
           }}
         >
-          {date.toDateString()}
+          {date}
         </Text>
       </View>
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={new Date()}
           mode="date"
           is24Hour={true}
           display="default"

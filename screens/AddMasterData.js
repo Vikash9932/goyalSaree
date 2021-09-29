@@ -17,7 +17,7 @@ const AddMasterData = ({ route, navigation }) => {
   const [subCategory, setSubCategory] = useState("");
   const [adhat, setAdhat] = useState("");
   const [firm, setFirm] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
   const [sold, setSold] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
   const [id, setId] = useState("");
@@ -137,7 +137,7 @@ const AddMasterData = ({ route, navigation }) => {
     setSubCategory("");
     setAdhat("");
     setFirm("");
-    setDate("");
+    setDate();
     setSold(false);
   };
 
