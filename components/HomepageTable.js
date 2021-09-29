@@ -10,6 +10,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import _ from "lodash";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { db } from "../firebase.config";
 
@@ -20,37 +21,69 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [tempData, setTempData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  // useEffect(() => {
-  //   const subscriber = db
-  //     .collection("Master Data")
-  //     .onSnapshot((documentSnapshot) => {
-  //       let tempData = [];
-  //       documentSnapshot.docs.forEach((item) => {
-  //         let eachData = {};
-  //         eachData = { id: item.id, ...item.data() };
-  //         tempData = [...tempData, eachData];
-  //       });
-  //       const sortedData = _.sortBy(tempData, [(o) => o.Item]);
-  //       setData(sortedData);
-  //     });
 
-  //   // Stop listening for updates when no longer required
-  //   return () => subscriber();
+  // useEffect(() => {
+  //   setRefreshing(true);
+  //   fetchData();
   // }, []);
 
   useEffect(() => {
     setRefreshing(true);
-    fetchData();
+    let asyncData = getData();
+    asyncData.then(
+      (value) => {
+        console.log("Fulfilled", value);
+        if (!value || value.length === 0) {
+          console.log("Inside no data");
+          // fetchData();
+          storeData(fetchData());
+        } else if (
+          Object.keys(value).length === 0 &&
+          value.constructor === Object
+        ) {
+          console.log("Inside empty object");
+          storeData(fetchData());
+        } else {
+          console.log(value.length);
+          setTempData(value.slice(0, 10));
+        }
+        setRefreshing(false);
+      },
+      (reason) => {
+        console.error("rejected", reason);
+      }
+    );
   }, []);
 
   useEffect(() => {
     filterDataFunc();
   }, [searchedTerm, searchedType]);
 
+  const storeData = async (value) => {
+    try {
+      value.then((nestedValue) => {
+        const jsonValue = JSON.stringify(nestedValue);
+        // console.log("Inside store data", jsonValue, nestedValue);
+        AsyncStorage.setItem("MasterData", jsonValue);
+      });
+    } catch (e) {
+      console.error("Saving error");
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("MasterData");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.error("Fetching error");
+    }
+  };
+
   const fetchData = async () => {
     console.log("Inside fetchData");
     const response = db.collection("Master Data");
-    const fetchedData = await response.limit(50).get();
+    const fetchedData = await response.limit(20).get();
     let tempData = [];
     fetchedData.docs.forEach((item) => {
       let eachData = { id: item.id, ...item.data() };
@@ -60,6 +93,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
     setData(sortedData);
     setTempData(sortedData.slice(0, 10));
     setRefreshing(false);
+    return sortedData;
   };
 
   const onRefresh = () => {
