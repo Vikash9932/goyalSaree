@@ -21,11 +21,18 @@ const AddMasterData = ({ route, navigation }) => {
   const [sold, setSold] = useState(false);
   const [editFlag, setEditFlag] = useState(false);
   const [id, setId] = useState("");
+  const [billNumber, setBillNumber] = useState();
   // const navigation = navigation;
   React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "New Item",
-    });
+    if (editFlag) {
+      navigation.setOptions({
+        title: "Edit Item",
+      });
+    } else {
+      navigation.setOptions({
+        title: "New Item",
+      });
+    }
   });
 
   useEffect(() => {
@@ -61,6 +68,7 @@ const AddMasterData = ({ route, navigation }) => {
         setFirm(fetchedData.Firm);
         setDate(fetchedData.Date);
         setSold(fetchedData.Sold);
+        setBillNumber(fetchedData.BillNumber);
       })
       .catch((err) => {
         console.log("error while fetching", err);
@@ -94,6 +102,7 @@ const AddMasterData = ({ route, navigation }) => {
           SubCategory: subCategory,
           Date: date,
           Sold: sold,
+          BillNumber: Number(billNumber),
         });
         Alert.alert("Item Inserted");
       } catch (error) {
@@ -117,6 +126,7 @@ const AddMasterData = ({ route, navigation }) => {
         SubCategory: subCategory,
         Date: date,
         Sold: sold,
+        BillNumber: Number(billNumber),
       })
       .then(() => {
         Alert.alert("Item Updated");
@@ -139,6 +149,7 @@ const AddMasterData = ({ route, navigation }) => {
     setFirm("");
     setDate();
     setSold(false);
+    setBillNumber();
   };
 
   const handleDeleteButton = () => {
@@ -233,6 +244,20 @@ const AddMasterData = ({ route, navigation }) => {
 
       <View style={styles.viewStyle}>
         <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Bill Number</Text>
+        </View>
+        <View style={styles.viewStyle2}>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={(text) => setBillNumber(text)}
+            defaultValue={billNumber}
+            keyboardType="number-pad"
+          />
+        </View>
+      </View>
+
+      <View style={styles.viewStyle}>
+        <View style={styles.viewStyle1}>
           <Text style={styles.textStyle}>Date</Text>
         </View>
         <View style={styles.viewStyle2}>
@@ -311,12 +336,6 @@ const AddMasterData = ({ route, navigation }) => {
   );
 };
 
-// AddMasterData.navigationOptions = () => {
-//   return {
-//     title: "New Item",
-//   };
-// };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#222",
@@ -326,7 +345,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#666",
     margin: 10,
-    height: 50,
+    height: 47,
     borderRadius: 5,
     marginBottom: 0,
   },
