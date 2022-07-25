@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, StyleSheet, Text, View, Alert } from "react-native";
+import { TextInput, StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { db } from "../firebase.config";
 // import DatePicker from "react-native-date-picker";
 import { CheckBox } from "react-native-elements";
@@ -179,7 +179,7 @@ const AddMasterData = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <View style={styles.viewStyle1}>
           <Text style={styles.textStyle}>Product Name</Text>
@@ -332,7 +332,7 @@ const AddMasterData = ({ route, navigation }) => {
           />
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
