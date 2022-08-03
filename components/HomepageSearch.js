@@ -13,6 +13,7 @@ const HomepageSearch = ({ term, onTermChange, type, onTypeChange }) => {
         renderDropdownIcon={() => <AntDesign name="down" size={24} color="black" />}
         defaultValueByIndex={0}
         buttonStyle={styles.pickerStyle}
+        buttonTextStyle={styles.pickerStyle1}
         data={dropdownValues}
         onSelect={(selectedItem, index) => {
           onTypeChange(selectedItem)
@@ -54,6 +55,9 @@ const styles = StyleSheet.create({
     flex: 6,
     // fontSize: 40
     backgroundColor: '#A0AAAA',
+  },
+  pickerStyle1: {
+    fontSize: 20
   },
   inputStyle: {
     flex: 6,
