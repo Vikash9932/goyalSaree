@@ -1,27 +1,33 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
+import { AntDesign } from '@expo/vector-icons';
+import SelectDropdown from 'react-native-select-dropdown'
 
+const dropdownValues = ['Item', "Adhat", 'Company', 'Category', 'Firm', 'Rate', 'SubCategory']
 const HomepageSearch = ({ term, onTermChange, type, onTypeChange }) => {
   return (
     <View style={styles.backgroundStyle}>
       <Feather name="search" style={styles.iconStyle} />
-      <Picker
-        selectedValue={type}
-        style={styles.pickerStyle}
-        onValueChange={(itemValue, itemIndex) => {
-          onTypeChange(itemValue);
+      <SelectDropdown
+        renderDropdownIcon={() => <AntDesign name="down" size={24} color="black" />}
+        defaultValueByIndex={0}
+        buttonStyle={styles.pickerStyle}
+        data={dropdownValues}
+        onSelect={(selectedItem, index) => {
+          onTypeChange(selectedItem)
         }}
-      >
-        <Picker.Item label="Item" value="Item" />
-        <Picker.Item label="Adhat" value="Adhat" />
-        <Picker.Item label="Company" value="Company" />
-        <Picker.Item label="Category" value="Category" />
-        <Picker.Item label="Firm" value="Firm" />
-        <Picker.Item label="Rate" value="Rate" />
-        <Picker.Item label="Sub Category" value="SubCategory" />
-      </Picker>
+        buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+          return selectedItem
+        }}
+        rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+          return item
+        }}
+      />
       <TextInput
         style={styles.inputStyle}
         placeholder="Search"
@@ -45,16 +51,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   pickerStyle: {
-    flex: 4,
+    flex: 6,
+    // fontSize: 40
+    backgroundColor: '#A0AAAA',
   },
   inputStyle: {
     flex: 6,
-    fontSize: 18,
+    fontSize: 20,
   },
   iconStyle: {
     fontSize: 25,
     alignSelf: "center",
     marginHorizontal: 15,
+    marginRight: 0,
   },
 });
 export default HomepageSearch;

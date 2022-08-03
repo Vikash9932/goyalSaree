@@ -123,6 +123,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
                   ? "arrow-down-drop-circle"
                   : "arrow-up-drop-circle"
               }
+              size={20}
             />
           )}
         </Text>
@@ -140,6 +141,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
                   ? "arrow-down-drop-circle"
                   : "arrow-up-drop-circle"
               }
+              size={20}
             />
           )}
         </Text>
@@ -157,6 +159,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
                   ? "arrow-down-drop-circle"
                   : "arrow-up-drop-circle"
               }
+              size={20}
             />
           )}
         </Text>
@@ -174,17 +177,18 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
                   ? "arrow-down-drop-circle"
                   : "arrow-up-drop-circle"
               }
+              size={20}
             />
           )}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={{ ...styles.columnHeader, flex: 1 }}
-        onPress={() => sortTable("More")}
+      // onPress={() => sortTable("More")}
       >
         <Text style={styles.columnHeaderTxt}>
           ..
-          {selectedColumn === "More" && (
+          {/* {selectedColumn === "More" && (
             <MaterialCommunityIcons
               name={
                 direction === "desc"
@@ -192,7 +196,7 @@ const HomepageTable = ({ searchedTerm, searchedType, navigation }) => {
                   : "arrow-up-drop-circle"
               }
             />
-          )}
+          )} */}
         </Text>
       </TouchableOpacity>
     </View>
@@ -320,9 +324,11 @@ const styles = StyleSheet.create({
     height: "100%",
     textAlign: "center",
     textAlignVertical: "center",
+    fontSize: 20,
   },
   columnRowTxt: {
     textAlign: "center",
+    fontSize: 16
     // margin:10
   },
   tableFooter: {
